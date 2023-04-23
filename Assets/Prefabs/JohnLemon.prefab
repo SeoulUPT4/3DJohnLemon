@@ -771,11 +771,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614b9896302466a47b732d64b3f317f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raylength: 0
   turnSpeed: 10
   moveSpeed: 3
-  lightFower: 0
   camView: {fileID: 4359582308969344269}
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  spotLightAngle: 0
+  lightFower: 0
   flashLight: {fileID: 7791234952357040270}
+  flashRange: 0
+  flashSkillDistance: 0
+  flashSkillAngle: 0
+  skillRadius: 0
 --- !u!82 &3706246133893212672
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1464,8 +1476,8 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 100
-  m_SpotAngle: 15
+  m_Range: 15
+  m_SpotAngle: 20
   m_InnerSpotAngle: 2
   m_CookieSize: 10
   m_Shadows:

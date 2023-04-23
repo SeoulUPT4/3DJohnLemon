@@ -1,22 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     static public PlayerController Instance;
+    public float raylength;
+    [Header("플레이어 설정")]
     public float turnSpeed = 20f;
     public float moveSpeed;
-    public float lightFower;
+    public Image flashOffImage;
+    public Image flashSkillCoolTimeImage;
+    [Header("카메라 설정")]
+    [Tooltip("카메라 Target은 레몬의 자식오브젝트에 있음")]
     public GameObject camView;
+
+    [Header("레이어 마스크 설정")]
+    public LayerMask wallLayerMask;
+    public LayerMask enemyLayerMask;
+    
+    [Header("손전등관련 설정")]
     public Light flashLight;
-    public float rayLength;
-    private float spotlightAngle;
-    //private float halfAngle;
+    public float spotLightAngle;
+    public float lightFower;
+    public float flashRange; //실제 빛추는 거리
+    public float flashSkillDistance; //스킬 사거리
+    public float skillRadius; //검출 반경
 
-    private Vector3 lightPos;
-    private float lightDir;
+    [Header("스킬관련 설정")]
+    public float onFlashT;
+    public float skillCoolT;
 
+    private float onFlashTime;
+    private bool isFlashCoolTime;
+    private float skillCoolTime;
+
+    List<GameObject> detectedObjects = new List<GameObject>();
+    float m_skillDis;
+    float m_flashHalfAngle;
+    Vector3 m_SkillPos;
+    Vector3 leftRayDir;
+    Vector3 rightRayDir;
+
+    RaycastHit[] hits = new RaycastHit[50];
+    Collider[] colliders = new Collider[50];
 
     Animator m_Animator;
     Rigidbody m_Rigidbody;
@@ -27,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     float YAxis;
     bool isLight = false;
-
+    Material originMaterial;
     private void Awake()
     {
         flashLight.gameObject.SetActive(false);
@@ -44,19 +73,68 @@ public class PlayerController : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         m_AudioSource = GetComponent<AudioSource>();
-        spotlightAngle = flashLight.spotAngle;
+        flashLight.range = flashRange;
+        flashLight.spotAngle = spotLightAngle;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        flashOffImage.gameObject.SetActive(true);
+        flashSkillCoolTimeImage.fillAmount = 0;
+
+    }
+    private void FixedUpdate()
+    {
+        //왼쪽과 오른쪽 스킬 방향과 사거리
+        leftRayDir = Quaternion.Euler(0f, -m_flashHalfAngle, 0f) * transform.forward * m_skillDis;
+        rightRayDir = Quaternion.Euler(0f, m_flashHalfAngle, 0f) * transform.forward * m_skillDis;
+
+    }
+    void Update()
+    {
+        Movement();
+        Rotate();
+        //m_Movement.Normalize();
+
+        OnOffFlashLight();
+
+        RaycastHit hit;
+        if (Physics.Raycast(flashLight.transform.position, flashLight.transform.forward, out hit, flashSkillDistance, wallLayerMask))
+        {
+            if (hit.collider != null)
+            {
+                m_skillDis = Vector3.Distance(flashLight.transform.position, hit.transform.position);
+            }
+            else
+            {
+                m_skillDis = flashSkillDistance;
+            }
+        }
+
+        Debug.DrawRay(flashLight.transform.position, flashLight.transform.forward * m_skillDis, Color.red);
+        Debug.DrawRay(flashLight.transform.position, leftRayDir, Color.red);
+        Debug.DrawRay(flashLight.transform.position, rightRayDir, Color.red);
+
+        if (isLight)
+        {
+            FlashLightSkill();
+        }
     }
 
-    void FixedUpdate()
+    private void LateUpdate()
+    {
+        //손전등과 스킬 거리에서 사이 벽이 있을 경우 카메라 거리 변환
+    }
+
+    void Movement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         Vector2 moveDir = new Vector2(horizontal, vertical);
         if (moveDir.sqrMagnitude >= 1) moveDir = moveDir.normalized;
+
         Vector3 newDir = transform.forward * moveDir.y + transform.right * moveDir.x;
         transform.position = transform.position + newDir.normalized * Time.deltaTime * moveSpeed;
-        //m_Movement.Normalize();
+
 
         bool hasHorizontalInput = !Mathf.Approximately(newDir.x, 0f);
         bool hasVerticalInput = !Mathf.Approximately(newDir.y, 0f);
@@ -69,42 +147,115 @@ public class PlayerController : MonoBehaviour
             {
                 m_AudioSource.Play();
             }
-        } else
+        }
+        else
         {
             m_AudioSource.Stop();
         }
+    }
 
+    void Rotate()
+    {
         YAxis += Input.GetAxis("Mouse X") * turnSpeed;
-        transform.eulerAngles= new Vector3(transform.eulerAngles.x, YAxis, transform.eulerAngles.z);
-        lightPos = flashLight.transform.position;
-        float halfAngle = spotlightAngle * 0.5f;
-        RaycastHit[] hits = Physics.RaycastAll(flashLight.transform.position, flashLight.transform.forward, rayLength);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, YAxis, transform.eulerAngles.z);
+    }
 
-        for (int i = 0; i < hits.Length; i++)
+    //손전등 켜고 끄기 + 쿨타임
+    void OnOffFlashLight() 
+    {
+        flashLight.intensity = lightFower;
+
+
+        //테스트 용 차후 지우기
+        /*if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit = hits[i];
 
-            Vector3 targetDirection = hit.point - lightPos;
-            float angle = Vector3.Angle(flashLight.transform.forward, targetDirection);
+                isLight = !isLight;
+                flashLight.gameObject.SetActive(isLight);
+                flashOffImage.gameObject.SetActive(!isLight);
 
-            if(angle <= halfAngle)
+        }*/
+
+        //마우스 왼쪽 눌렀을 때 불러오기
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isLight && !isFlashCoolTime) //On
             {
+                isLight = true;
+                flashLight.gameObject.SetActive(isLight);
+                flashOffImage.gameObject.SetActive(false);
 
+            }
+            //isLight = !isLight;
+            else if (isLight) //Off
+            {
+                SetFlashOff();
             }
         }
 
-        
-    }
-    private void LateUpdate()
-    {
-        if(Input.GetMouseButtonDown(0))
+        if (isLight && !isFlashCoolTime)
         {
-            flashLight.intensity = lightFower;
-            isLight = !isLight;
-            flashLight.gameObject.SetActive(isLight);
-        }
-        Debug.DrawRay(flashLight.transform.position,flashLight.transform.forward * lightDir, Color.red);
+            onFlashTime += Time.deltaTime;
 
+            if (onFlashTime > onFlashT)
+            {
+                SetFlashOff();
+                onFlashTime = 0;
+            }
+        }
+        if (isFlashCoolTime)
+        {
+            skillCoolTime += Time.deltaTime;
+            flashSkillCoolTimeImage.fillAmount -= Time.smoothDeltaTime / skillCoolT;
+            if (skillCoolTime > skillCoolT)
+            {
+                isFlashCoolTime = false;
+                skillCoolTime = 0;
+            }
+        }
+    }
+
+    //중복사용
+    void SetFlashOff()
+    {
+        isLight = false;
+        flashLight.gameObject.SetActive(isLight);
+        flashOffImage.gameObject.SetActive(true);
+        isFlashCoolTime = true;
+        flashSkillCoolTimeImage.fillAmount = 1;
+    }
+
+    //손전등 스킬
+    void FlashLightSkill()
+    {
+        Vector3 conPos = flashLight.transform.forward * m_skillDis;
+
+        m_flashHalfAngle = spotLightAngle / 2f;
+
+
+        //현재 플레이어로부터 스킬 반경까지의 오브젝트들 모두 추출
+        int rangeofTargetNum = Physics.OverlapSphereNonAlloc(transform.position,m_skillDis,colliders, enemyLayerMask);
+
+        if (rangeofTargetNum == 0) return;
+
+        for (int i = 0; i < rangeofTargetNum; i++)
+        {
+            Vector3 targetDir = (colliders[i].gameObject.transform.position - flashLight.transform.position).normalized;
+
+            float leftAngle = Vector3.Angle(transform.position, leftRayDir);
+            float rightAngle = Vector3.Angle(transform.position, rightRayDir);
+            float targetAngle = Vector3.Angle(transform.position, targetDir);
+
+            if ((leftAngle <= targetAngle && rightAngle >= targetAngle) || (leftAngle >= targetAngle && rightAngle <= targetAngle))
+            {
+                IFlash target = colliders[i].gameObject.GetComponent<IFlash>();
+                //적에게 스킬 사용 시 적 중지
+                FlashMessage flashmessage;
+                flashmessage.isFlash = true;
+
+                target.ApplyFlash(flashmessage);
+            }
+        }
     }
 
     void OnAnimatorMove()

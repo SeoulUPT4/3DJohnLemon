@@ -59,13 +59,9 @@ public class PlayerController : MonoBehaviour
     Material originMaterial;
     private void Awake()
     {
+        Instance = this;
+
         flashLight.gameObject.SetActive(false);
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else Destroy(this);
-        DontDestroyOnLoad(this);
     }
 
     void Start()

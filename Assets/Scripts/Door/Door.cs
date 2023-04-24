@@ -13,8 +13,8 @@ public class Door : MonoBehaviour
     [SerializeField] AudioClip sound_opening;
     [SerializeField] AudioClip sound_Closing;
 
-    public bool isUnlocked { get; private set; }
-    public bool isOpened { get; private set; }
+    public bool isUnlocked = true;
+    public bool isOpened = false;
 
     public virtual void Open()
     {

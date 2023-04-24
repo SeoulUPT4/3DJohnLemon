@@ -9,6 +9,11 @@ public class Observer : MonoBehaviour
 
     bool m_IsPlayerInRange;
 
+    private void Awake()
+    {
+        player = FindObjectOfType<PlayerController>().transform;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.transform == player)

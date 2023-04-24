@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class CameraMovingByVM : MonoBehaviour
 {
@@ -11,11 +13,18 @@ public class CameraMovingByVM : MonoBehaviour
     public float transitionTime = 1.0f; // 이동 시간
     public AnimationCurve curve = AnimationCurve.Linear(0, 0, 1, 1); // 이동 곡선
 
+
+    public float skillcooltime = 6.0f;
     public TextMeshProUGUI skill;
+    public TextMeshProUGUI skillC;
     public TextMeshProUGUI time;
     public TextMeshProUGUI skilltime;
-    float coolTime = 6.0f;
-    public float topTime = 3.0f;
+    public Image skillOffImage;
+    public Image skillCoolTimeImage;
+
+
+    float coolTime =6.0f;
+    float topTime = 3.0f;
     int skillCount = 3;
 
     private bool isMoving = false; // 이동 중 여부
@@ -26,6 +35,8 @@ public class CameraMovingByVM : MonoBehaviour
     {
         topViewCamera.Priority = 0;
         firstPersonCamera.Priority = 10;
+        skillOffImage.gameObject.SetActive(true);
+        skillCoolTimeImage.fillAmount = 0;
     }
 
     void Update()
@@ -34,17 +45,32 @@ public class CameraMovingByVM : MonoBehaviour
         skill.GetComponent<TextMeshProUGUI>().text = "Skill : " + (int)skillCount;
         time.GetComponent<TextMeshProUGUI>().text = "CoolTime : " + coolTime;
         skilltime.GetComponent<TextMeshProUGUI>().text = "Skill Time : " + topTime;
-        if (coolTime>0)
+        skillC.GetComponent<TextMeshProUGUI>().text = "" + (int)skillCount;
+
+        if (isTop==true)
         {
-            coolTime -= Time.deltaTime;
+            skillOffImage.gameObject.SetActive(true);
         }
         else
         {
-            coolTime = 0;
+            if (coolTime > 0)
+            {
+                coolTime -= Time.deltaTime;
+                skillCoolTimeImage.fillAmount = coolTime / skillcooltime;
+                skillOffImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                coolTime = 0;
+                skillCoolTimeImage.fillAmount = 0;
+                skillOffImage.gameObject.SetActive(false);
+            }
         }
+
 
         if (Input.GetKeyDown(KeyCode.C) && !isMoving && coolTime <= 0 && topViewCamera.Priority ==0&&skillCount>0)
         {
+            //skillOffImage.gameObject.SetActive(true);
             skillCount--;
             topTime = 3.0f;
             isMoving = true;
@@ -70,7 +96,7 @@ public class CameraMovingByVM : MonoBehaviour
         // 1인칭 카메라 -> 탑뷰 카메라로 이동
         if (firstPersonCamera.Priority > topViewCamera.Priority)
         {
-            coolTime = 10f;
+            isTop = true;
             elapsedTime = 0.0f;
 
             while (elapsedTime < transitionTime)
@@ -84,11 +110,11 @@ public class CameraMovingByVM : MonoBehaviour
 
             firstPersonCamera.Priority = 0;
             topViewCamera.Priority = 10;
-            isTop = true;
         }
         // 탑뷰 카메라 -> 1인칭 카메라로 이동
         else
         {
+            coolTime = skillcooltime;
             elapsedTime = 0.0f;
 
             while (elapsedTime < transitionTime)

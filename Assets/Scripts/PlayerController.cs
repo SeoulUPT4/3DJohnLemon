@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     static public PlayerController Instance;
-    public float raylength;
+
     [Header("플레이어 설정")]
     public float turnSpeed = 20f;
     public float moveSpeed;
@@ -57,9 +57,13 @@ public class PlayerController : MonoBehaviour
     float YAxis;
     bool isLight = false;
     Material originMaterial;
+    Rigidbody rigid;
+
     private void Awake()
     {
         Instance = this;
+
+        rigid = GetComponent<Rigidbody>();
 
         flashLight.gameObject.SetActive(false);
     }
@@ -129,8 +133,9 @@ public class PlayerController : MonoBehaviour
         if (moveDir.sqrMagnitude >= 1) moveDir = moveDir.normalized;
 
         Vector3 newDir = transform.forward * moveDir.y + transform.right * moveDir.x;
-        transform.position = transform.position + newDir.normalized * Time.deltaTime * moveSpeed;
+        //transform.position = transform.position + newDir.normalized * Time.deltaTime * moveSpeed;
 
+        rigid.velocity = newDir.normalized * moveSpeed;
 
         bool hasHorizontalInput = !Mathf.Approximately(newDir.x, 0f);
         bool hasVerticalInput = !Mathf.Approximately(newDir.y, 0f);

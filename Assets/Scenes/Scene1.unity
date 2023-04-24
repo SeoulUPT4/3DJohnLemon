@@ -5211,6 +5211,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10.58
       objectReference: {fileID: 0}
+    - target: {fileID: 5681521070744654047, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521070744654047, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521070744654047, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521070744654047, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
+      objectReference: {fileID: 0}
     - target: {fileID: 5681521070947415273, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.5
@@ -5238,6 +5254,22 @@ PrefabInstance:
     - target: {fileID: 5681521070947415278, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
       propertyPath: orthographic size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521071045109816, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521071045109816, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521071045109816, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681521071045109816, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ccdc051a0f4ce746861ff4ef936ebe2, type: 3}
@@ -5719,6 +5751,7 @@ MonoBehaviour:
   caughtBackgroundImageCanvasGroup: {fileID: 84820168}
   exitAudio: {fileID: 1672296694}
   caughtAudio: {fileID: 1696272583}
+  creditSceneName: 
 --- !u!65 &2058966421
 BoxCollider:
   m_ObjectHideFlags: 0

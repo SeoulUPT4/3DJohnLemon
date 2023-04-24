@@ -14872,6 +14872,7 @@ MonoBehaviour:
   caughtBackgroundImageCanvasGroup: {fileID: 1480343862}
   exitAudio: {fileID: 1672296694}
   caughtAudio: {fileID: 1696272583}
+  creditSceneName: 00 Credit Scene
 --- !u!65 &2058966421
 BoxCollider:
   m_ObjectHideFlags: 0

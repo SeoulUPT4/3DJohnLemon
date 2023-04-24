@@ -14,6 +14,8 @@ public class GameEnding : MonoBehaviour
     public AudioSource exitAudio;
     public AudioSource caughtAudio;
 
+    [SerializeField] string creditSceneName;
+
     bool m_IsPlayerAtExit;
     bool m_IsPlayerCaught;
     float m_Timer;
@@ -64,7 +66,9 @@ public class GameEnding : MonoBehaviour
             }
             else
             {
-                Application.Quit();
+                print("End");
+                m_IsPlayerAtExit = false;
+                SceneManager.LoadScene(creditSceneName);
             }
         }
     }

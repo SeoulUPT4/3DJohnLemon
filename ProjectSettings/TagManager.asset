@@ -16,8 +16,8 @@ TagManager:
   - 
   - 
   - PostProcessingVolumes
-  - 
-  - 
+  - Enemy
+  - Wall
   - 
   - 
   - 

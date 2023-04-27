@@ -109,9 +109,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Debug.DrawRay(flashLight.transform.position, flashLight.transform.forward * m_skillDis, Color.red);
-        Debug.DrawRay(flashLight.transform.position, leftRayDir, Color.red);
-        Debug.DrawRay(flashLight.transform.position, rightRayDir, Color.red);
+        //Debug.DrawRay(flashLight.transform.position, flashLight.transform.forward * m_skillDis, Color.red);
+        //Debug.DrawRay(flashLight.transform.position, leftRayDir, Color.red);
+        //Debug.DrawRay(flashLight.transform.position, rightRayDir, Color.red);
 
         if (isLight)
         {

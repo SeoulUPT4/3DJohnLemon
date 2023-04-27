@@ -53,7 +53,7 @@ MonoBehaviour:
   sound_openFail: {fileID: 8300000, guid: f9616c5382179804dad026005a6d3535, type: 3}
   sound_opening: {fileID: 8300000, guid: c0edf6a68f7d0a44aa358442f56cf47f, type: 3}
   sound_Closing: {fileID: 8300000, guid: 6eba87221a3b7f34bbcc9be67ea1d8fb, type: 3}
-  isUnlocked: 1
+  isUnlocked: 0
   isOpened: 0
 --- !u!65 &7909062406755858277
 BoxCollider:

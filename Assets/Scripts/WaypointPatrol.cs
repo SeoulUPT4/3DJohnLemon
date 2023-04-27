@@ -13,13 +13,15 @@ public class WaypointPatrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (navMeshAgent.enabled == false) return;
         navMeshAgent.SetDestination(waypoints[0].position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        if (navMeshAgent.enabled == false) return;
+        else if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
         {
             m_CurrentWaypoointIndex = (m_CurrentWaypoointIndex + 1) % waypoints.Length;
             navMeshAgent.SetDestination(waypoints[m_CurrentWaypoointIndex].position);

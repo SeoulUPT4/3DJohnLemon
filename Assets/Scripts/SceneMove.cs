@@ -13,7 +13,7 @@ public class SceneMove : MonoBehaviour
         if (!isMoving && other.transform == PlayerController.Instance.transform)
         {
             isMoving = true;
-            LoadingScreen.Instance.LoadScene(nextSceneName, 2.5f);
+            LoadingScreen.Instance.LoadScene(nextSceneName, 0.2f);
         }
     }
 }

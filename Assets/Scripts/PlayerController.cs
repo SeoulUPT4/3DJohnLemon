@@ -92,7 +92,6 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
         Rotate();
-        //m_Movement.Normalize();
 
         OnOffFlashLight();
 
@@ -109,19 +108,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //Debug.DrawRay(flashLight.transform.position, flashLight.transform.forward * m_skillDis, Color.red);
-        //Debug.DrawRay(flashLight.transform.position, leftRayDir, Color.red);
-        //Debug.DrawRay(flashLight.transform.position, rightRayDir, Color.red);
-
         if (isLight)
         {
             FlashLightSkill();
         }
-    }
-
-    private void LateUpdate()
-    {
-        //손전등과 스킬 거리에서 사이 벽이 있을 경우 카메라 거리 변환
     }
 
     void Movement()
@@ -133,7 +123,6 @@ public class PlayerController : MonoBehaviour
         if (moveDir.sqrMagnitude >= 1) moveDir = moveDir.normalized;
 
         Vector3 newDir = transform.forward * moveDir.y + transform.right * moveDir.x;
-        //transform.position = transform.position + newDir.normalized * Time.deltaTime * moveSpeed;
 
         rigid.velocity = newDir.normalized * moveSpeed;
 
@@ -166,17 +155,6 @@ public class PlayerController : MonoBehaviour
     {
         flashLight.intensity = lightFower;
 
-
-        //테스트 용 차후 지우기
-        /*if (Input.GetMouseButtonDown(0))
-        {
-
-                isLight = !isLight;
-                flashLight.gameObject.SetActive(isLight);
-                flashOffImage.gameObject.SetActive(!isLight);
-
-        }*/
-
         //마우스 왼쪽 눌렀을 때 불러오기
         if (Input.GetMouseButtonDown(0))
         {
@@ -187,7 +165,6 @@ public class PlayerController : MonoBehaviour
                 flashOffImage.gameObject.SetActive(false);
 
             }
-            //isLight = !isLight;
             else if (isLight) //Off
             {
                 SetFlashOff();
@@ -257,11 +234,5 @@ public class PlayerController : MonoBehaviour
                 target.ApplyFlash(flashmessage);
             }
         }
-    }
-
-    void OnAnimatorMove()
-    {
-        //m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
-        //m_Rigidbody.MoveRotation(m_Rotation);
     }
 }

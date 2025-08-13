@@ -8,11 +8,11 @@ public class CameraController : MonoBehaviour
     GameObject camView;
     float XAxis;
     float YAxis;
-    LayerMask layerMask = LayerMask.GetMask("Player");
+    LayerMask layerMask;
     List<GameObject> prevAlphWalls = new List<GameObject>();
     private void Awake()
     {
-
+        layerMask = LayerMask.GetMask("Player");
     }
     void Start()
     {

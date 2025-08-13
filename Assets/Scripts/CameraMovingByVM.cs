@@ -8,17 +8,17 @@ using UnityEngine.UI;
 
 public class CameraMovingByVM : MonoBehaviour
 {
-    public CinemachineVirtualCamera firstPersonCamera; // 1ÀÎÄª Ä«¸Þ¶ó
-    public CinemachineVirtualCamera topViewCamera; // Å¾ºä Ä«¸Þ¶ó
-    public float transitionTime = 1.0f; // ÀÌµ¿ ½Ã°£
-    public AnimationCurve curve = AnimationCurve.Linear(0, 0, 1, 1); // ÀÌµ¿ °î¼±
+    public CinemachineVirtualCamera firstPersonCamera; // 1ï¿½ï¿½Äª Ä«ï¿½Þ¶ï¿½
+    public CinemachineVirtualCamera topViewCamera; // Å¾ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½
+    public float transitionTime = 1.0f; // ï¿½Ìµï¿½ ï¿½Ã°ï¿½
+    public AnimationCurve curve = AnimationCurve.Linear(0, 0, 1, 1); // ï¿½Ìµï¿½ ï¿½î¼±
 
 
     public float skillcooltime = 6.0f;
-    public TextMeshProUGUI skill;
+    //public TextMeshProUGUI skill;
     public TextMeshProUGUI skillC;
-    public TextMeshProUGUI time;
-    public TextMeshProUGUI skilltime;
+    //public TextMeshProUGUI time;
+    //public TextMeshProUGUI skilltime;
     public Image skillOffImage;
     public Image skillCoolTimeImage;
 
@@ -27,8 +27,8 @@ public class CameraMovingByVM : MonoBehaviour
     float topTime = 3.0f;
     int skillCount = 3;
 
-    private bool isMoving = false; // ÀÌµ¿ Áß ¿©ºÎ
-    private float elapsedTime = 0.0f; // °æ°ú ½Ã°£
+    private bool isMoving = false; // ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float elapsedTime = 0.0f; // ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     private bool isTop = false;
 
     private void Start()
@@ -42,9 +42,9 @@ public class CameraMovingByVM : MonoBehaviour
     void Update()
     {
 
-        skill.GetComponent<TextMeshProUGUI>().text = "Skill : " + (int)skillCount;
-        time.GetComponent<TextMeshProUGUI>().text = "CoolTime : " + coolTime;
-        skilltime.GetComponent<TextMeshProUGUI>().text = "Skill Time : " + topTime;
+        //skill.GetComponent<TextMeshProUGUI>().text = "Skill : " + (int)skillCount;
+        //time.GetComponent<TextMeshProUGUI>().text = "CoolTime : " + coolTime;
+        //skilltime.GetComponent<TextMeshProUGUI>().text = "Skill Time : " + topTime;
         skillC.GetComponent<TextMeshProUGUI>().text = "" + (int)skillCount;
 
         if (isTop==true)
@@ -93,7 +93,7 @@ public class CameraMovingByVM : MonoBehaviour
 
     IEnumerator SwitchCamera()
     {
-        // 1ÀÎÄª Ä«¸Þ¶ó -> Å¾ºä Ä«¸Þ¶ó·Î ÀÌµ¿
+        // 1ï¿½ï¿½Äª Ä«ï¿½Þ¶ï¿½ -> Å¾ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ï¿½ ï¿½Ìµï¿½
         if (firstPersonCamera.Priority > topViewCamera.Priority)
         {
             isTop = true;
@@ -111,7 +111,7 @@ public class CameraMovingByVM : MonoBehaviour
             firstPersonCamera.Priority = 0;
             topViewCamera.Priority = 10;
         }
-        // Å¾ºä Ä«¸Þ¶ó -> 1ÀÎÄª Ä«¸Þ¶ó·Î ÀÌµ¿
+        // Å¾ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ -> 1ï¿½ï¿½Äª Ä«ï¿½Þ¶ï¿½ï¿½ ï¿½Ìµï¿½
         else
         {
             coolTime = skillcooltime;

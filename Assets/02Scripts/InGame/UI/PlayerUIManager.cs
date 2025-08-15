@@ -1,87 +1,75 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
-    public Color OffEffectColor;
-    
     [Header("[ FlashUI ]")]
     [SerializeField]
-    private Image m_flashIcon;
+    private Image m_flashLightIcon;
     [SerializeField]
-    private Image m_flashBackgroundImg;
+    private Image m_flashLightBackgroundImg;
     [SerializeField]
-    private Image m_flashCoolTimeImg;
+    private Image m_flashLightCoolTimeImg;
     [Space(10)]
 
     [Header("[ TopViewUI ]")]
     [SerializeField]
-    private Image m_topViewIcon;
+    private Image m_mapSacnIcon;
     [SerializeField]
-    private Image m_topViewBackgroundImg;
+    private Image m_mapScanBackgroundImg;
     [SerializeField]
-    private Image m_topViewCoolTimeImg;
+    private Image m_mapScanCoolTimeImg;
 
     private void Start()
     {
-        m_flashCoolTimeImg.gameObject.SetActive(false);
-        m_flashCoolTimeImg.fillAmount = 1;
+        m_flashLightCoolTimeImg.gameObject.SetActive(false);
+        m_flashLightCoolTimeImg.fillAmount = 1;
 
-        m_topViewCoolTimeImg.gameObject .SetActive(false);
-        m_topViewCoolTimeImg.fillAmount = 1;
+        m_mapScanCoolTimeImg.gameObject .SetActive(false);
+        m_mapScanCoolTimeImg.fillAmount = 1;
     }
 
-    private void ChangeColor(Image icon, Image background, bool isOn)
-    {
-        Color _iconColor = icon.color;
-        Color _backColor = background.color;
 
-        if (isOn)
-        {
-            _iconColor = Color.white;
-            _iconColor.a = 1;
-            _backColor = Color.white;
-            _backColor.a = 1;
-        }
-        else
-        {
-            _iconColor = OffEffectColor;
-            _backColor = OffEffectColor;
-        }
-    }
-    public void SkillUIOn(SkillType skillType)
+    public void ChargingCoolTimeUI(SkillType skillType, float fillAmount)
     {
         switch (skillType)
         {
             case SkillType.Flash:
-                ChangeColor(m_flashIcon, m_flashBackgroundImg, true);
+                m_flashLightCoolTimeImg.fillAmount = fillAmount;
+                if(m_mapScanCoolTimeImg.fillAmount <= 0)
+                {
+                    m_mapScanCoolTimeImg.fillAmount = 0;
+                }
                 break;
             case SkillType.MapScan:
-                ChangeColor(m_topViewIcon, m_topViewBackgroundImg, true);
+                m_mapScanCoolTimeImg.fillAmount = fillAmount;
+                if (m_mapScanCoolTimeImg.fillAmount <= 0)
+                {
+                    m_mapScanCoolTimeImg.fillAmount = 0;
+                }
                 break;
         }
     }
 
-    public void SkillUIOff(SkillType skillType)
-    {
-        switch (skillType)
-        {
-            case SkillType.Flash:
-                ChangeColor(m_flashIcon, m_flashBackgroundImg, false);
-                break;
-            case SkillType.MapScan:
-                ChangeColor(m_topViewIcon, m_topViewBackgroundImg, false);
-                break;
-        }
-    }
 
-    public void CoolTimeUIEffect(SkillType skillType)
+    public void ActivateCoolTimeUI(SkillType skillTyp, bool isActive)
     {
-        switch (skillType)
+        switch (skillTyp)
         {
             case SkillType.Flash:
+                m_flashLightCoolTimeImg.gameObject.SetActive(isActive);
+                if(isActive == false)
+                {
+                    m_mapScanCoolTimeImg.fillAmount = 1;
+                }
                 break;
             case SkillType.MapScan:
+                m_mapScanCoolTimeImg.gameObject.SetActive(isActive);
+                if (isActive == false)
+                {
+                    m_mapScanCoolTimeImg.fillAmount = 1;
+                }
                 break;
         }
     }

@@ -4,17 +4,21 @@ public class PlayerInput : MonoBehaviour
 {
     #region ==================== Locomotion
     // Move
-    public Vector3 MoveDir;
+    public Vector3 MoveDir { get; private set; }
 
     // Rotate
-    public Vector2 MouseDir;
-
+    public Vector2 MouseDir { get; private set; }
+    public bool IsFlash { get; private set; }
+    public bool IsMapScan {  get; private set; }
     #endregion ================= /Locomotion
 
     private void Update()
     {
         HandleMovementInput();
         HandleRotateMouseInput();
+
+        IsFlash = Input.GetKeyDown(KeyCode.F);
+        IsMapScan = Input.GetKeyDown(KeyCode.C);
     }
 
     private void HandleMovementInput()
@@ -28,4 +32,5 @@ public class PlayerInput : MonoBehaviour
     {
         MouseDir = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
     }
+
 }

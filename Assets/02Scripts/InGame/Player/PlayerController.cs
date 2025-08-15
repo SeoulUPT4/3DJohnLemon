@@ -39,14 +39,11 @@ public class PlayerController : MonoBehaviour
     private float m_rotationSmoothTime = 0.2f;
     private float m_currentSmoothVelocity = 0;
 
-    private Collider[] colliders = new Collider[50];
+    private bool m_isFlashLight = false;
+    private bool m_isMapScan = false;
 
-    private float YAxis;
-    private bool isLight = false;
+    private bool m_isSkill = false;
 
-    int m_num = 0;
-    //private LayerMask m_wallLayerMask = LayerMask.GetMask("Wall");
-    //private LayerMask m_enemyLayerMask = LayerMask.GetMask("Enemy");
     private void Awake()
     {
         Instance = this;
@@ -65,31 +62,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        HandleSkill();
+
+        if (m_isSkill) return;
         HandleMove();
         HandleRotate();
-        //Movement();
-        //Rotate();
-
-        //OnOffFlashLight();
-
-        /*RaycastHit hit;
-        if (Physics.Raycast(FlashLight.transform.position, FlashLight.transform.forward, out hit, FlashSkillDistance, WallLayerMask))
-        {
-            if (hit.collider != null)
-            {
-                m_skillDis = Vector3.Distance(FlashLight.transform.position, hit.transform.position);
-            }
-            else
-            {
-                m_skillDis = FlashSkillDistance;
-            }
-        }*/
-
-        /*if (isLight)
-        {
-            FlashLightSkill();
-        }*/
     }
+
+    #region ================================================================================ Movement
     private void HandleMove()
     {
         float _targetSpeed = MoveSpeed;
@@ -102,13 +82,13 @@ public class PlayerController : MonoBehaviour
 
         // 캐릭터나 월드기준이 아닌 카메라 앞을 기준(기본 TPS 방식)
         m_moveDir = _forward * m_playerInput.MoveDir.z + _right * m_playerInput.MoveDir.x;
-        
         m_characterController.Move(m_moveDir * _targetSpeed * Time.deltaTime);
 
-        // Anime
+        // Move Anime
         bool isMove = m_moveDir != Vector3.zero;
-        m_animationManager.PlayWalkAnim(isMove);
+        m_animationManager.PlayWalkAnime(isMove);
 
+        // FootStep Audio
         if(isMove)
         {
             if (!m_audioSource.isPlaying)
@@ -133,98 +113,78 @@ public class PlayerController : MonoBehaviour
         // 캐릭터 회전 적용
         transform.rotation = Quaternion.Euler(0f, smoothedAngle, 0f);
     }
+    #endregion ================================================================================ /Movement
 
-    /*void Rotate()
+    #region ================================================================================ Skill
+    private void HandleSkill()
     {
-        YAxis += Input.GetAxis("Mouse X") * TurnSpeed;
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, YAxis, transform.eulerAngles.z);
-    }*/
-
-/*
-    void OnOffFlashLight() 
-    {
-        FlashLight.intensity = LightFower;
-
-        //���콺 ���� ������ �� �ҷ�����
-        if (Input.GetMouseButtonDown(0))
+        if(!m_isFlashLight && !m_isSkill)
         {
-            if (!isLight && !m_isFlashCoolTime) //On
+            if (m_playerInput.IsFlash)
             {
-                isLight = true;
-                FlashLight.gameObject.SetActive(isLight);
-                m_playerUIManager.SkillUIOn(SkillType.Flash);
+                m_isFlashLight = true;
+                m_isSkill = true;
+                // Skill
+                m_playerSkillManager.OnFlashLight();
 
-            }
-            else if (isLight) //Off
-            {
-                SetFlashOff();
+                
+                // Skill Anime
+                m_animationManager.PlayFlashAnime(m_playerSkillManager.FlashLightDuration);
+                
+                // Skill CoolTimeUI
+                StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashLightCoolTime));
+
+                // IsSkill 복구
+                Invoke("InvokeIsSkill", m_playerSkillManager.FlashLightDuration);
             }
         }
-
-        if (isLight && !m_isFlashCoolTime)
+        if (!m_isMapScan && !m_isSkill)
         {
-            m_onFlashTime += Time.deltaTime;
+            if (m_playerInput.IsMapScan)
+            {
+                m_isMapScan = true;
+                m_isSkill = true;
+                // Skill
 
-            if (m_onFlashTime > FlashDuration)
-            {
-                SetFlashOff();
-                m_onFlashTime = 0;
-            }
-        }
-        if (m_isFlashCoolTime)
-        {
-            skillCoolTime += Time.deltaTime;
-            //FlashIcon.fillAmount -= Time.smoothDeltaTime / FlashCoolTime;
-            if (skillCoolTime > FlashCoolTime)
-            {
-                m_isFlashCoolTime = false;
-                skillCoolTime = 0;
+                // Skill Anime
+                m_animationManager.PlayMapScanAnime(m_playerSkillManager.MapSacnDuration);
+
+                // Skill CoolTimeUI
+                StartCoroutine(SkillCoolTime(SkillType.MapScan, m_playerSkillManager.MapScanCoolTime));
+
+                // IsSkill 복구
+                Invoke("InvokeIsSkill", m_playerSkillManager.MapSacnDuration);
             }
         }
     }
 
-    //�ߺ����
-    void SetFlashOff()
+    private void InvokeIsSkill()
     {
-        isLight = false;
-        FlashLight.gameObject.SetActive(isLight);
-        //P
-        m_isFlashCoolTime = true;
-        //FlashIcon.fillAmount = 1;
+        m_isSkill = false;
     }
 
-    /// <summary>
-    /// 빛 조명을 이용한 스킬
-    /// </summary>
-    private void FlashLightSkill()
+    private IEnumerator SkillCoolTime(SkillType skillType, float CoolTime)
     {
-        Vector3 conPos = FlashLight.transform.forward * m_skillDis;
+        m_playerUIManager.ActivateCoolTimeUI(skillType, true);
 
-        m_flashHalfAngle = SpotLightAngle / 2f;
-
-
-        //중첩 유령들 확인
-        int rangeofTargetNum = Physics.OverlapSphereNonAlloc(transform.position,m_skillDis,colliders, EnemyLayerMask);
-
-        if (rangeofTargetNum == 0) return;
-
-        for (int i = 0; i < rangeofTargetNum; i++)
+        float duration = 0;
+        while (duration < 1)
         {
-            Vector3 targetDir = (colliders[i].gameObject.transform.position - FlashLight.transform.position).normalized;
-
-            float leftAngle = Vector3.Angle(transform.position, leftRayDir);
-            float rightAngle = Vector3.Angle(transform.position, rightRayDir);
-            float targetAngle = Vector3.Angle(transform.position, targetDir);
-
-            if ((leftAngle <= targetAngle && rightAngle >= targetAngle) || (leftAngle >= targetAngle && rightAngle <= targetAngle))
-            {
-                IFlash target = colliders[i].gameObject.GetComponent<IFlash>();
-                //플래시 당한 타겟에게 전달
-                FlashMessage flashmessage;
-                flashmessage.isFlash = true;
-
-                target.ApplyFlash(flashmessage);
-            }
+            duration += Time.deltaTime/ CoolTime;
+            m_playerUIManager.ChargingCoolTimeUI(skillType, 1-duration);
+            yield return null;
         }
-    }*/
+
+        m_playerUIManager.ActivateCoolTimeUI(skillType, false);
+        switch (skillType)
+        {
+            case SkillType.Flash:
+                m_isFlashLight = false;
+                break;
+            case SkillType.MapScan:
+                m_isMapScan = false;
+                break;
+        }
+    }
+    #endregion ================================================================================ /Skill
 }

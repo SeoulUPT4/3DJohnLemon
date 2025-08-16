@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 6285332308815994288}
   - component: {fileID: 1343626905320693865}
   m_Layer: 0
-  m_Name: RabbitWalk
+  m_Name: RabbitGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

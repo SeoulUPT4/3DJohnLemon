@@ -47,7 +47,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     #region ================================================== FlashLight
     /// <summary>
-    /// 3D 시야각을 통한 유령감지
+    /// 들고있는 손전등의 위치로부터 3D 시야각을 통한 유령감지
     /// navMesh Stop 적용
     /// </summary>
     public void OnFlashLight()

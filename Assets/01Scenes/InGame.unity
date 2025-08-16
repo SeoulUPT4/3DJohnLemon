@@ -3781,7 +3781,7 @@ PrefabInstance:
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4493157118896090220}
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: gameEnding
       value: 
@@ -6894,7 +6894,7 @@ PrefabInstance:
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4493157118896090220}
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: gameEnding
       value: 
@@ -8718,7 +8718,7 @@ PrefabInstance:
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4493157118896090220}
     - target: {fileID: 6371404122674828379, guid: 6f1c38c7b0fe39342911aa93ef6710e9, type: 3}
       propertyPath: gameEnding
       value: 

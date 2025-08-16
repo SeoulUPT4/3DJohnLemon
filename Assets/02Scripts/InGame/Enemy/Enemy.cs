@@ -13,41 +13,50 @@ public enum EnemyType
 public class Enemy : MonoBehaviour, IApplyFlash
 {
     public EnemyType enemyType;
-    private float m_stopTime;
-    bool isLight;
+    protected bool m_isLight;
+
+    /*private float m_stopTime;
     NavMeshAgent nav;
     SkinnedMeshRenderer skinnedMeshRenderer;
     Color originColor;
     private GameObject target;
-    private bool isFollow;
+    private bool isFollow;*/
     private void Awake()
     {
-        if (GetComponent<NavMeshAgent>() == null)
+       /* if (GetComponent<NavMeshAgent>() == null)
         {
             nav = null;
             return;
         }
         nav = GetComponent<NavMeshAgent>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        originColor = skinnedMeshRenderer.material.color;
+        originColor = skinnedMeshRenderer.material.color;*/
     }
+    public void init()
+    {
+        /*if (enemyType == EnemyType.FollowGhost) nav.speed = 0.6f;
+        else nav.speed = 1.2f;
+        m_stopTime = 0f;
+        isLight = false;
+        skinnedMeshRenderer.material.color = originColor;*/
+    }
+
     private void Start()
     {
-        if(enemyType == EnemyType.PatrolGhost)
+        /*if(enemyType == EnemyType.PatrolGhost)
         {
             nav.enabled = false;
-        }
+        }*/
     }
 
     public void ApplyFlash(bool isFlash)
     {
-        isLight = isFlash;
-        Debug.Log(this.gameObject.name);
+        m_isLight = isFlash;
     }
 
     void Update()
     {
-        if(nav != null)
+        /*if(nav != null)
         {
             if (isLight)
             {
@@ -80,15 +89,11 @@ public class Enemy : MonoBehaviour, IApplyFlash
         {
             target = PlayerController.Instance.gameObject;
             nav.SetDestination(target.transform.position);
-        }
+        }*/
     }
 
-    void init()
+    public void Attack()
     {
-        if (enemyType == EnemyType.FollowGhost) nav.speed = 0.6f;
-        else nav.speed = 1.2f;
-        m_stopTime = 0f;
-        isLight = false;
-        skinnedMeshRenderer.material.color = originColor;
+
     }
 }

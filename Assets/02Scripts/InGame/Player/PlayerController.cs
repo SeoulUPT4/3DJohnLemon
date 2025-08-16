@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
     private PlayerUIManager m_playerUIManager;
 
     [Header("Movement Config")]
-    public float MoveSpeed = 2;
-    public float TurnSpeed = 20f;
+    [SerializeField] private float m_moveSpeed = 2;
+    [SerializeField] private float m_turnSpeed = 20f;
 
     private Camera m_mainCamera;
     private Vector3 m_moveDir;
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
         m_mainCamera = Camera.main;
     }
 
-
     void Update()
     {
         HandleSkill();
@@ -72,7 +71,7 @@ public class PlayerController : MonoBehaviour
     #region ================================================================================ Movement
     private void HandleMove()
     {
-        float _targetSpeed = MoveSpeed;
+        float _targetSpeed = m_moveSpeed;
         if (m_playerInput.MoveDir == Vector3.zero) _targetSpeed = 0f;
        
         // 카메라기준으로 캐릭터 이동
@@ -187,4 +186,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion ================================================================================ /Skill
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(""))
+        {
+
+        }
+    }
 }

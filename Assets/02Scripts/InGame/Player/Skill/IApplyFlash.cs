@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IFlash
+public interface IApplyFlash
 {
-    void ApplyFlash(FlashMessage flashMessage);
+    void ApplyFlash(bool isFlash);
 }

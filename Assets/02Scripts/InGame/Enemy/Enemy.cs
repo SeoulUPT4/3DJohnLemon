@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum ENEMYTYPE
+public enum EnemyType
 {
-    Gost,
-    Gost2,
-    Gost3
+    Gargoyle,
+    PatrolGhost,
+    FollowGhost
 }
 
-public class Enemy : MonoBehaviour, IFlash
+public class Enemy : MonoBehaviour, IApplyFlash
 {
-    public ENEMYTYPE enemyType;
-    float stopT;
+    public EnemyType enemyType;
+    private float m_stopTime;
     bool isLight;
     NavMeshAgent nav;
     SkinnedMeshRenderer skinnedMeshRenderer;
@@ -33,16 +33,18 @@ public class Enemy : MonoBehaviour, IFlash
     }
     private void Start()
     {
-        if(enemyType == ENEMYTYPE.Gost2)
+        if(enemyType == EnemyType.PatrolGhost)
         {
-            //gameObject.GetComponent<Collider>().enabled = false;
             nav.enabled = false;
         }
     }
-    public void ApplyFlash(FlashMessage flashMessage)
+
+    public void ApplyFlash(bool isFlash)
     {
-        if (flashMessage.isFlash) isLight = true;
+        isLight = isFlash;
+        Debug.Log(this.gameObject.name);
     }
+
     void Update()
     {
         if(nav != null)
@@ -50,16 +52,16 @@ public class Enemy : MonoBehaviour, IFlash
             if (isLight)
             {
                 nav.speed = 0;
-                stopT += Time.deltaTime;
+                m_stopTime += Time.deltaTime;
                 skinnedMeshRenderer.material.color = Color.red;
-                if (stopT > 5.0f)
+                if (m_stopTime > 5.0f)
                 {
                     init();
                 }
             }
             else if(!isLight)
             {
-                if (enemyType == ENEMYTYPE.Gost2)
+                if (enemyType == EnemyType.PatrolGhost)
                 {
                     target = PlayerController.Instance.gameObject;
                     transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 0.8f);
@@ -74,7 +76,7 @@ public class Enemy : MonoBehaviour, IFlash
             }
         }
 
-        if (enemyType == ENEMYTYPE.Gost3)
+        if (enemyType == EnemyType.FollowGhost)
         {
             target = PlayerController.Instance.gameObject;
             nav.SetDestination(target.transform.position);
@@ -83,9 +85,9 @@ public class Enemy : MonoBehaviour, IFlash
 
     void init()
     {
-        if (enemyType == ENEMYTYPE.Gost3) nav.speed = 0.6f;
+        if (enemyType == EnemyType.FollowGhost) nav.speed = 0.6f;
         else nav.speed = 1.2f;
-        stopT = 0f;
+        m_stopTime = 0f;
         isLight = false;
         skinnedMeshRenderer.material.color = originColor;
     }

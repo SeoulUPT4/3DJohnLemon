@@ -414,12 +414,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c9ae88a9b472847bdd2a44698a5562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  m_occluderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  triggerInteraction: 1
   m_flashLightObj: {fileID: 0}
   m_flashLight: {fileID: 2147070386158705205}
-  m_flashSkillDistance: 0
-  m_skillRadius: 0
-  m_flashLightDuration: 2
+  m_flashLightDistance: 0
+  m_flashLightRadius: 0
+  FlashLightDuration: 2
   FlashLightCoolTime: 5
+  MapSacnDuration: 3
   MapScanCoolTime: 8
 --- !u!114 &8655111046583988926
 MonoBehaviour:
@@ -647,6 +655,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 768512930b2a7f84f9666ebaef88dc43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2569866401294014468, guid: 768512930b2a7f84f9666ebaef88dc43, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 768512930b2a7f84f9666ebaef88dc43, type: 3}
       propertyPath: m_Name

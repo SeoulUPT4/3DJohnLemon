@@ -129,13 +129,13 @@ public class PlayerController : MonoBehaviour
 
                 
                 // Skill Anime
-                m_animationManager.PlayFlashAnime(m_playerSkillManager.FlashLightDuration);
+                m_animationManager.PlayFlashAnime(m_playerSkillManager.FlashDuration);
                 
                 // Skill CoolTimeUI
-                StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashLightCoolTime));
+                StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashCoolTime));
 
                 // IsSkill 복구
-                Invoke("InvokeIsSkill", m_playerSkillManager.FlashLightDuration);
+                Invoke("InvokeIsSkill", m_playerSkillManager.FlashDuration);
             }
         }
         if (!m_isMapScan && !m_isSkill)

@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
-using UnityEngine.Windows;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerSkillManager))]
@@ -14,20 +10,19 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ref Component")]
     [SerializeField]
-    private PlayerAnimationManager m_animationManager;
-    [SerializeField]
     private CharacterController m_characterController;
     [SerializeField]
     private AudioSource m_audioSource;
     [SerializeField]
-    private AudioClip[] m_footStepClips;
-
+    private AudioClip m_cryingClips;
+    [SerializeField]
+    private PlayerAnimationManager m_animationManager;
     [SerializeField]
     private PlayerInput m_playerInput;
     [SerializeField]
     private PlayerSkillManager m_playerSkillManager;
     [SerializeField]
-    private PlayerUIManager m_playerUIManager;
+    private UIManager m_playerUIManager;
 
     [Header("Movement Config")]
     [SerializeField] private float m_moveSpeed = 2;
@@ -36,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private Camera m_mainCamera;
     private Vector3 m_moveDir;
     
-    private float m_rotationSmoothTime = 0.2f;
+    private float m_rotationSmoothTime = 0.1f;
     private float m_currentSmoothVelocity = 0;
 
     private bool m_isFlashLight = false;
@@ -63,9 +58,9 @@ public class PlayerController : MonoBehaviour
     {
         HandleSkill();
 
+        HandleRotate();
         if (m_isSkill) return;
         HandleMove();
-        HandleRotate();
     }
 
     #region ================================================================================ Movement
@@ -85,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         // Move Anime
         bool isMove = m_moveDir != Vector3.zero;
-        m_animationManager.PlayWalkAnime(isMove);
+        m_animationManager.PlayWalkAni(isMove);
 
         // FootStep Audio
         if(isMove)
@@ -99,10 +94,19 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotate()
     {
-        if (m_playerInput.MoveDir == Vector3.zero) return;
+        //if (m_playerInput.MoveDir == Vector3.zero) return;
 
         // 목표 회전 방향 (카메라 앞을 기준으로 왼쪽 오른쪽 키값으로의 회전 방향 추출)
-        Quaternion targetRot = Quaternion.LookRotation(m_moveDir);
+        Quaternion targetRot = Quaternion.identity;
+        if (m_isSkill)
+        {
+            targetRot = Quaternion.LookRotation(m_mainCamera.transform.forward);
+        }
+        else
+        {
+            if (m_playerInput.MoveDir == Vector3.zero) return;
+                targetRot = Quaternion.LookRotation(m_moveDir);
+        }
         // 목표 회전의 Y각도 추출
         float _targetAngle = targetRot.eulerAngles.y;
 
@@ -126,9 +130,9 @@ public class PlayerController : MonoBehaviour
                 // Skill
                 m_playerSkillManager.OnFlashLight();
 
-                
                 // Skill Anime
-                m_animationManager.PlayFlashAnime(m_playerSkillManager.FlashDuration);
+                float _time = m_playerSkillManager.FlashDuration;
+                m_animationManager.PlayFlashAni(_time);
                 
                 // Skill CoolTimeUI
                 StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashCoolTime));
@@ -146,7 +150,7 @@ public class PlayerController : MonoBehaviour
                 // Skill
 
                 // Skill Anime
-                m_animationManager.PlayMapScanAnime(m_playerSkillManager.MapSacnDuration);
+                m_animationManager.PlayMapScanAni(m_playerSkillManager.MapSacnDuration);
 
                 // Skill CoolTimeUI
                 StartCoroutine(SkillCoolTime(SkillType.MapScan, m_playerSkillManager.MapScanCoolTime));
@@ -189,9 +193,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(""))
+        if(other.CompareTag("DeadZone"))
         {
-
+            m_audioSource.clip = m_cryingClips;
+            m_audioSource.Play();
+            // Dead Anime
+            m_animationManager.PlayDeadAni();
+            // 게임 매니저 처리
+            GameManager.Instance.PlayerDead();
         }
     }
 }

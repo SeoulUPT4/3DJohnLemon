@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using static UnityEditor.PlayerSettings;
 
 public enum SkillType
 {
@@ -14,7 +12,7 @@ public class PlayerSkillManager : MonoBehaviour
 {
     [SerializeField] private LayerMask m_enemyLayerMask;
     [SerializeField] private LayerMask m_wallMask;
-    private QueryTriggerInteraction m_triggerInteraction = QueryTriggerInteraction.Ignore;
+
     [Space(10)]
 
     [Header(" [ OnFlashLight ] ")]
@@ -22,8 +20,8 @@ public class PlayerSkillManager : MonoBehaviour
     [SerializeField] private Light m_flashLight;
     [SerializeField] private float m_flashDuration = 2;
     [SerializeField] private float m_flashCoolTime = 5f;
-    public float FlashDuration { get; private set; }
-    public float FlashCoolTime { get; private set; }
+    public float FlashDuration => m_flashDuration;
+    public float FlashCoolTime => m_flashCoolTime;
     [Space(10)]
 
     [Range(0,10),SerializeField] private float m_flashLightRange = 6;   // 적 탐지 영역
@@ -38,11 +36,11 @@ public class PlayerSkillManager : MonoBehaviour
     public float MapScanCoolTime = 8f;
 
     private Collider[] m_enemyColliders = new Collider[50];     //감지 오브젝트
-    private List<GameObject> m_enemyList = new List<GameObject>();
+
     void Start()
     {
-
         m_flashLightObj.SetActive(false);
+        m_flashLight.spotAngle = m_flashLightAngle;
     }
 
     #region ================================================== FlashLight
@@ -93,21 +91,37 @@ public class PlayerSkillManager : MonoBehaviour
             if (_targetBeteenAngle > halfAngle) continue;
 
             // 3.적과 손전등 사이에 장애물이 없는지 판단
-            if(Physics.Raycast(_flashPos, _enemyDir,out RaycastHit hit, m_flashLightRange, m_wallMask))
+            if(Physics.Raycast(_flashPos, _enemyDir,out RaycastHit hit, m_flashLightRange, m_enemyLayerMask | m_wallMask))
             {
-                if (hit.collider != null) continue; //장애물 감지시 무시
+                if (hit.collider == null) continue; //장애물 감지시 무시
+                if (((1 << hit.collider.gameObject.layer) & m_enemyLayerMask) != 0)
+                {
+                    Enemy _enemy = hit.collider.gameObject.GetComponent<Enemy>();
+                    _enemy.ApplyFlash(m_flashDuration);
+                    Debug.Log("적 발견!");
+                }
+                else
+                {
+                    Debug.Log("적 가려짐");
+                }
             }
-
-            // 4. 장애물 없을 시 적에게 감지정보 전달
-            IApplyFlash _enemy = m_enemyColliders[i].GetComponent<IApplyFlash>();
-            _enemy.ApplyFlash(true);
         }
     }
  
     private void OnDrawGizmos()
     {
-        Vector3 _flashPos = m_flashLightObj.transform.position + Vector3.up * 0.5f;
+        Vector3 _flashPos = m_flashLightObj.transform.position + Vector3.up * 0.1f;
+        // 범위
+        Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_flashPos, m_flashLightRange);
+
+        // 시야각
+        Vector3 _forward = m_flashLightObj.transform.forward;
+        Vector3 _leftDir = Quaternion.AngleAxis(-m_flashLightAngle * 0.5f,Vector3.up) * _forward;
+        Vector3 _rightDir = Quaternion.AngleAxis(m_flashLightAngle * 0.5f, Vector3.up) * _forward;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(_flashPos, _flashPos + _leftDir * m_flashLightRange);
+        Gizmos.DrawLine(_flashPos, _flashPos + _rightDir * m_flashLightRange);
     }
     #endregion ================================================== /FlashLight
 

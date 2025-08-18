@@ -5,20 +5,25 @@ public class PlayerAnimationManager : MonoBehaviour
 {
     [SerializeField] Animator m_animator;
 
-    public void PlayWalkAnime(bool isWalking)
+    public void PlayWalkAni(bool isWalking)
     {
         m_animator.SetBool("IsWalking", isWalking);
     }
-    public void PlayFlashAnime(float time)
+    public void PlayFlashAni(float time)
     {
         m_animator.SetBool("IsFlash", true);
         StartCoroutine(PlayAnimeTimeCoroutine(time, SkillType.Flash));
     }
 
-    public void PlayMapScanAnime(float time)
+    public void PlayMapScanAni(float time)
     {
         m_animator.SetBool("IsMapScan", true);
         StartCoroutine(PlayAnimeTimeCoroutine(time, SkillType.MapScan));
+    }
+
+    public void PlayDeadAni()
+    {
+        m_animator.SetBool("IsDead", true);
     }
 
     private IEnumerator PlayAnimeTimeCoroutine(float time, SkillType skillType)

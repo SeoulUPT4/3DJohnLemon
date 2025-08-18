@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum SceneType
 {
@@ -10,23 +11,16 @@ public enum SceneType
     InGame2
 }
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader
 {
-    public string nextSceneName;
-
-    bool isMoving = false;
-
     public void LoadScene(string sceneName)
     {
-        LoadingScreen.Instance.LoadScene(nextSceneName, 0.2f);
+        LoadingScreen.Instance.LoadScene(sceneName, 0.2f);
+    }
+    public static void ReLoadCurrentScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!isMoving && other.transform == PlayerController.Instance.transform)
-        {
-            isMoving = true;
-            LoadingScreen.Instance.LoadScene(nextSceneName, 0.2f);
-        }
-    }
+
 }

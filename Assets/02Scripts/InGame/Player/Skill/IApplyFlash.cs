@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IApplyFlash
 {
-    void ApplyFlash(bool isFlash);
+    void ApplyFlash(float flashDuration);
 }

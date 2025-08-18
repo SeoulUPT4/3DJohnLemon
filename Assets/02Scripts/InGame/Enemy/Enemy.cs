@@ -10,27 +10,43 @@ public enum EnemyType
     FollowGhost
 }
 
+public enum EnemyState
+{
+    Idle,
+    Patrol,
+    Follow,
+}
+
 public class Enemy : MonoBehaviour, IApplyFlash
 {
-    public EnemyType enemyType;
-    protected bool m_isLight;
+    [SerializeField] private EnemyType m_enemyType;
+    [SerializeField] private GameObject m_target;
+    [Space(10)]
 
-    /*private float m_stopTime;
-    NavMeshAgent nav;
-    SkinnedMeshRenderer skinnedMeshRenderer;
-    Color originColor;
-    private GameObject target;
-    private bool isFollow;*/
+    [Header("[ AI ]")]
+    [SerializeField] private float m_chaseDistance;
+    [SerializeField] private float m_stopDistance;  // 추적 최소거리
+    [Space(10)]
+
+    [Header("[ FlashLight Hit ]")]
+    [SerializeField] ParticleSystem m_particles;
+    [SerializeField] private float m_flashStopTime; 
+    
+
+    private NavMeshAgent m_navAgent;
+    private SkinnedMeshRenderer m_skinnedMesh;
+    private Color m_originColor;
+    private EnemyState m_enemyState = EnemyState.Idle;
+    private bool m_isHitFlash;
+
     private void Awake()
     {
-       /* if (GetComponent<NavMeshAgent>() == null)
-        {
-            nav = null;
-            return;
-        }
-        nav = GetComponent<NavMeshAgent>();
-        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        originColor = skinnedMeshRenderer.material.color;*/
+        if (GetComponent<NavMeshAgent>() != null)
+            m_navAgent = GetComponent<NavMeshAgent>();
+
+        m_skinnedMesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        m_particles = GetComponentInChildren<ParticleSystem>();
+        m_originColor = m_skinnedMesh.material.color;
     }
     public void init()
     {
@@ -43,19 +59,28 @@ public class Enemy : MonoBehaviour, IApplyFlash
 
     private void Start()
     {
+        m_particles.Stop();
         /*if(enemyType == EnemyType.PatrolGhost)
         {
             nav.enabled = false;
         }*/
     }
 
-    public void ApplyFlash(bool isFlash)
-    {
-        m_isLight = isFlash;
-    }
 
     void Update()
     {
+        float _distance = Vector3.Distance(m_target.transform.position, transform.position);
+
+        if (m_isHitFlash) return;
+        // 추적 거리에 들어왔을 시
+        if(_distance <= m_chaseDistance)
+        {
+            ChaseTarget();
+        }
+        else
+        {
+            BaseState();
+        }
         /*if(nav != null)
         {
             if (isLight)
@@ -92,8 +117,40 @@ public class Enemy : MonoBehaviour, IApplyFlash
         }*/
     }
 
-    public void Attack()
+    public void ApplyFlash(float flashDuration)
+    {
+        if (m_isHitFlash) return;
+        m_isHitFlash = true;
+        HitFlash(flashDuration);
+    }
+    private void ChaseTarget()
     {
 
     }
+
+    protected virtual void BaseState()
+    {
+
+    }
+
+    private void HitFlash(float flashDuration)
+    {
+        Debug.Log("Hit");
+        Color _color = new Color();
+        _color = Color.red;
+
+        m_skinnedMesh.material.color = _color;
+        m_particles.Play();
+        StartCoroutine(StopEnemyCoroutine(flashDuration));
+    }
+
+    private IEnumerator StopEnemyCoroutine(float flashDuration)
+    {
+        yield return new WaitForSeconds(m_flashStopTime + m_flashStopTime);
+        m_particles.Stop();
+
+        m_skinnedMesh.material.color = m_originColor;
+    }
+
+
 }

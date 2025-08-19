@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
     [Header("[ FlashUI ]")]
     [SerializeField]
     private Image m_flashLightIcon;
@@ -22,11 +23,21 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image m_mapScanCoolTimeImg;
 
-    [Header(" [ DeadUI ] ")]
+    [Header("[ DeadUI ]")]
+    [SerializeField]
+    private GameObject m_deadUIObj;
     [SerializeField]
     private Image m_deadBackgroundImg;
     [SerializeField]
     private Image m_deadCenterImg;
+
+    [Header("[ SetInteractionUI ]")]
+    [SerializeField]
+    private GameObject m_interactionUI; 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -43,6 +54,8 @@ public class UIManager : MonoBehaviour
         Color _deadCenterColor = m_deadCenterImg.color;
         _deadCenterColor.a = 0f;
         m_deadCenterImg.color = _deadCenterColor;
+
+        SetInteractionUI(false);
     }
 
 
@@ -91,6 +104,8 @@ public class UIManager : MonoBehaviour
 
     public void DeadUIFade(float fadeDuration)
     {
+        if(m_deadUIObj.activeInHierarchy == false)
+            m_deadUIObj.SetActive(true);
         StartCoroutine(FadeCoroutine(fadeDuration));
     }
 
@@ -114,5 +129,10 @@ public class UIManager : MonoBehaviour
             m_deadCenterImg.color = _deadCenterColor;
             yield return null;
         }
+    }
+
+    public void SetInteractionUI(bool isbool)
+    {
+        m_interactionUI.SetActive(isbool);
     }
 }

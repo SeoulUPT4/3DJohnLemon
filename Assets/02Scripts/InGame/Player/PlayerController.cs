@@ -21,8 +21,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInput m_playerInput;
     [SerializeField]
     private PlayerSkillManager m_playerSkillManager;
-    [SerializeField]
-    private UIManager m_playerUIManager;
 
     [Header("Movement Config")]
     [SerializeField] private float m_moveSpeed = 2;
@@ -38,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool m_isMapScan = false;
 
     private bool m_isSkill = false;
-
+    private bool m_isDead = false;
     private void Awake()
     {
         Instance = this;
@@ -56,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(m_isDead) return;
         HandleSkill();
 
         HandleRotate();
@@ -168,17 +167,17 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SkillCoolTime(SkillType skillType, float CoolTime)
     {
-        m_playerUIManager.ActivateCoolTimeUI(skillType, true);
+        UIManager.Instance.ActivateCoolTimeUI(skillType, true);
 
         float duration = 0;
         while (duration < 1)
         {
             duration += Time.deltaTime/ CoolTime;
-            m_playerUIManager.ChargingCoolTimeUI(skillType, 1-duration);
+            UIManager.Instance.ChargingCoolTimeUI(skillType, 1-duration);
             yield return null;
         }
 
-        m_playerUIManager.ActivateCoolTimeUI(skillType, false);
+        UIManager.Instance.ActivateCoolTimeUI(skillType, false);
         switch (skillType)
         {
             case SkillType.Flash:
@@ -201,6 +200,7 @@ public class PlayerController : MonoBehaviour
             m_animationManager.PlayDeadAni();
             // 게임 매니저 처리
             GameManager.Instance.PlayerDead();
+            m_isDead = true;
         }
     }
 }

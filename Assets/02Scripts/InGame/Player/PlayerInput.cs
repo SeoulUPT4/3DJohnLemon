@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -17,7 +18,7 @@ public class PlayerInput : MonoBehaviour
         HandleMovementInput();
         HandleRotateMouseInput();
 
-        IsFlash = Input.GetKeyDown(KeyCode.F);
+        IsFlash = Input.GetMouseButtonDown(0);
         IsMapScan = Input.GetKeyDown(KeyCode.C);
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public enum SkillType
@@ -76,33 +77,33 @@ public class PlayerSkillManager : MonoBehaviour
         // 1.범위 내 적 인식
         Vector3 _flashPos = m_flashLightObj.transform.position;
         int _enemyCount = Physics.OverlapSphereNonAlloc(_flashPos, m_flashLightRange, m_enemyColliders, m_enemyLayerMask);
-
+        
         // 2. 적 위치와 시야각 각도 비교
         float halfAngle = m_flashLight.spotAngle * 0.5f;
         for (int i = 0; i < _enemyCount; i++)
         {
             Vector3 _enemyPos = m_enemyColliders[i].transform.position;
-            Vector3 _enemyDir = (_enemyPos - _flashPos).normalized;
+            Vector3 _enemyDir = Vector3.ProjectOnPlane((_enemyPos - _flashPos),Vector3.up).normalized;
+        
             // 손전등 앞을 기준으로 적과의 각도(180도중에)
             // 왼쪽, 오른쪽이든 정면을 기준으로 얼만큼의 각도만큼 벌어져 있는지를 _targetBeteenAngle로 반환함(그러므로 -각도가 없음)
             float _targetBeteenAngle = Vector3.Angle(m_flashLightObj.transform.forward, _enemyDir);
-
+            
             // 왼쪽, 오른쪽으로의 halfAngle보다 크면 무시
             if (_targetBeteenAngle > halfAngle) continue;
+            Debug.DrawLine(_flashPos, _flashPos+ _enemyDir * m_flashLightRange, Color.blue);
 
             // 3.적과 손전등 사이에 장애물이 없는지 판단
-            if(Physics.Raycast(_flashPos, _enemyDir,out RaycastHit hit, m_flashLightRange, m_enemyLayerMask | m_wallMask))
+            if (Physics.Raycast(_flashPos, _enemyDir,out RaycastHit hit, m_flashLightRange, m_enemyLayerMask | m_wallMask))
             {
-                if (hit.collider == null) continue; //장애물 감지시 무시
+                //if (hit.collider == null) continue; //장애물 감지시 무시
+
+                // hit의 레이어만 켜진 마스크 생성하여
+                // m_enemyLayerMask와 And연산으로 비교
                 if (((1 << hit.collider.gameObject.layer) & m_enemyLayerMask) != 0)
                 {
                     Enemy _enemy = hit.collider.gameObject.GetComponent<Enemy>();
                     _enemy.ApplyFlash(m_flashDuration);
-                    Debug.Log("적 발견!");
-                }
-                else
-                {
-                    Debug.Log("적 가려짐");
                 }
             }
         }

@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField]
-    private UIManager m_uiManager;
+
     [SerializeField]
     private AudioManager m_audioManager;
 
@@ -59,7 +58,7 @@ public class GameManager : MonoBehaviour
         m_audioManager.PlayGameOverSound();
 
         // DeadUI FadeIn
-        m_uiManager.DeadUIFade(m_fadeDuration);
+        UIManager.Instance.DeadUIFade(m_fadeDuration);
 
         // 현재 씬 재 로드
         Invoke("DelaySceneLoad", m_fadeDuration + 2f);

@@ -1,26 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject CamView;
-    public float RotationSpeed;
-    
-    private float m_cameraDirX;
-
+    [SerializeField]
+    CinemachineCamera m_freeLookCam;
+    [SerializeField]
+    CinemachineCamera m_mapScanCam;
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void RotateCamera()
+    public void MapScan(float skillTime)
     {
-        m_cameraDirX -= Input.GetAxis("Mouse Y");
-        m_cameraDirX = Mathf.Clamp(m_cameraDirX, -30, 60);
+        m_mapScanCam.Priority = 20;
+        m_freeLookCam.Priority = 10;
+        StartCoroutine(InitMapScanCoroutine(skillTime));
+    }
 
-        Vector2 _cameraRotDir = new Vector3(m_cameraDirX, 0, 0);
-        CamView.transform.rotation = Quaternion.Euler(_cameraRotDir * RotationSpeed);
+    private IEnumerator InitMapScanCoroutine(float skillTime)
+    {
+        yield return new WaitForSeconds(skillTime);
+        m_mapScanCam.Priority = 10;
+        m_freeLookCam.Priority = 20;
     }
 }

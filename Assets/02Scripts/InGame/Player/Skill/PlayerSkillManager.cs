@@ -11,6 +11,10 @@ public enum SkillType
 }
 public class PlayerSkillManager : MonoBehaviour
 {
+    [SerializeField]
+    private CameraController m_cameraController;
+    [Space(10)]
+
     [SerializeField] private LayerMask m_enemyLayerMask;
     [SerializeField] private LayerMask m_wallMask;
 
@@ -127,9 +131,9 @@ public class PlayerSkillManager : MonoBehaviour
     #endregion ================================================== /FlashLight
 
     #region ================================================== MapScan
-    public void OnMapScan()
+    public void OnMapScan(float skillTime)
     {
-        
+        m_cameraController.MapScan(skillTime);
     }
     #endregion ================================================== /MapScan
 }

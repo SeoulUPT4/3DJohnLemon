@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
        
         // 카메라기준으로 캐릭터 이동
         Vector3 _forward = m_mainCamera.transform.forward;
-        _forward.y = 0f;    // y값에 따라 높이가 변해버리기에 0으로 설정
+        _forward.y = 0f;    // 0f : y값(축)에 따라 카메라 바라보는 방향이 아래나 위 방향이면 캐릭터의 전진 방향이 지면이나 천장방향이되기에
         Vector3 _right = m_mainCamera.transform.right;
 
         // 캐릭터나 월드기준이 아닌 카메라 앞을 기준(기본 TPS 방식)
@@ -93,8 +93,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotate()
     {
-        //if (m_playerInput.MoveDir == Vector3.zero) return;
-
         // 목표 회전 방향 (카메라 앞을 기준으로 왼쪽 오른쪽 키값으로의 회전 방향 추출)
         Quaternion targetRot = Quaternion.identity;
         if (m_isSkill)
@@ -120,43 +118,40 @@ public class PlayerController : MonoBehaviour
     #region ================================================================================ Skill
     private void HandleSkill()
     {
-        if(!m_isFlashLight && !m_isSkill)
+        if (m_isSkill) return;
+
+        if (!m_isFlashLight && m_playerInput.IsFlash)
         {
-            if (m_playerInput.IsFlash)
-            {
-                m_isFlashLight = true;
-                m_isSkill = true;
-                // Skill
-                m_playerSkillManager.OnFlashLight();
+            m_isFlashLight = true;
+            m_isSkill = true;
+            // Skill
+            m_playerSkillManager.OnFlashLight();
 
-                // Skill Anime
-                float _time = m_playerSkillManager.FlashDuration;
-                m_animationManager.PlayFlashAni(_time);
-                
-                // Skill CoolTimeUI
-                StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashCoolTime));
+            // Skill Anime
+            float _time = m_playerSkillManager.FlashDuration;
+            m_animationManager.PlayFlashAni(_time);
 
-                // IsSkill 복구
-                Invoke("InvokeIsSkill", m_playerSkillManager.FlashDuration);
-            }
+            // Skill CoolTimeUI
+            StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashCoolTime));
+
+            // IsSkill 복구
+            Invoke("InvokeIsSkill", m_playerSkillManager.FlashDuration + 1);    // +1 다른 스킬 바로 사용 방지
         }
-        if (!m_isMapScan && !m_isSkill)
+        else if (!m_isMapScan && m_playerInput.IsMapScan)
         {
-            if (m_playerInput.IsMapScan)
-            {
-                m_isMapScan = true;
-                m_isSkill = true;
-                // Skill
+            m_isMapScan = true;
+            m_isSkill = true;
+            // Skill
+            m_playerSkillManager.OnMapScan(m_playerSkillManager.MapSacnDuration);
 
-                // Skill Anime
-                m_animationManager.PlayMapScanAni(m_playerSkillManager.MapSacnDuration);
+            // Skill Anime
+            m_animationManager.PlayMapScanAni(m_playerSkillManager.MapSacnDuration);
 
-                // Skill CoolTimeUI
-                StartCoroutine(SkillCoolTime(SkillType.MapScan, m_playerSkillManager.MapScanCoolTime));
+            // Skill CoolTimeUI
+            StartCoroutine(SkillCoolTime(SkillType.MapScan, m_playerSkillManager.MapScanCoolTime));
 
-                // IsSkill 복구
-                Invoke("InvokeIsSkill", m_playerSkillManager.MapSacnDuration);
-            }
+            // IsSkill 복구
+            Invoke("InvokeIsSkill", m_playerSkillManager.MapSacnDuration + 2);  // +2 카메라 돌아오는 시간포함
         }
     }
 
@@ -172,8 +167,8 @@ public class PlayerController : MonoBehaviour
         float duration = 0;
         while (duration < 1)
         {
-            duration += Time.deltaTime/ CoolTime;
-            UIManager.Instance.ChargingCoolTimeUI(skillType, 1-duration);
+            duration += (Time.deltaTime / CoolTime);
+            UIManager.Instance.ChargingCoolTimeUI(skillType, 1 - duration); // fillAmount는 1이 Full인 상태이므로 반대로 -시켜야함
             yield return null;
         }
 
@@ -192,15 +187,31 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Enemy
         if(other.CompareTag("DeadZone"))
         {
-            m_audioSource.clip = m_cryingClips;
-            m_audioSource.Play();
-            // Dead Anime
-            m_animationManager.PlayDeadAni();
-            // 게임 매니저 처리
+            // GameOver ReStart처리
             GameManager.Instance.PlayerDead();
             m_isDead = true;
+
+            // Anime
+            m_animationManager.PlayDeadAni();
+            
+            // Audio
+            m_audioSource.clip = m_cryingClips;
+            m_audioSource.Play();
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
+        {
+            if(m_playerInput.IsInteraction)
+            {
+                
+            }
+        }
+    }
+
+    
 }

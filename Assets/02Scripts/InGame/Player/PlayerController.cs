@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
         // 캐릭터나 월드기준이 아닌 카메라 앞을 기준(기본 TPS 방식)
         m_moveDir = _forward * m_playerInput.MoveDir.z + _right * m_playerInput.MoveDir.x;
+        
         m_characterController.Move(m_moveDir * _targetSpeed * Time.deltaTime);
 
         // Move Anime
@@ -135,7 +136,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SkillCoolTime(SkillType.Flash, m_playerSkillManager.FlashCoolTime));
 
             // IsSkill 복구
-            Invoke("InvokeIsSkill", m_playerSkillManager.FlashDuration + 1);    // +1 다른 스킬 바로 사용 방지
+            Invoke("InvokeIsSkill", m_playerSkillManager.FlashDuration + 0.5f);    // +1 다른 스킬 바로 사용 방지
         }
         else if (!m_isMapScan && m_playerInput.IsMapScan)
         {
@@ -202,16 +203,4 @@ public class PlayerController : MonoBehaviour
             m_audioSource.Play();
         }
     }
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
-        {
-            if(m_playerInput.IsInteraction)
-            {
-                
-            }
-        }
-    }
-
-    
 }

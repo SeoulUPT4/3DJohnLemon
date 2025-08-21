@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour, IApplyFlash
     [Space(10)]
 
     [Header("[ AI ]")]
-    [SerializeField] private float m_chaseDistance;
+    [SerializeField] protected float m_ChaseDistance;
     [SerializeField] private float m_stopDistance;  // 추적 최소거리
     [Space(10)]
 
@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour, IApplyFlash
                 {
                     Patrol();
                 }
-                else if (_distance < m_chaseDistance)
+                else if (_distance < m_ChaseDistance)
                 {
                     m_CurrentState = EnemyState.Chase;
                 }
@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour, IApplyFlash
                 {
                     ChaseTarget();
                     
-                    if (m_enemyType != EnemyType.FollowGhost && _distance > m_chaseDistance)
+                    if (m_enemyType != EnemyType.FollowGhost && _distance > m_ChaseDistance)
                     {
                         BaseState();
                     }

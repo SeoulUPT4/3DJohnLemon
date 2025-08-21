@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager Instance;
 
     [SerializeField]
     private AudioSource m_bgmAudioSource;
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
     private AudioClip m_gameOverClip;
     [Space(10)]
 
-    [Header("[ Interaction ]")]
+    [Header("[ InteractionComponent ]")]
     [SerializeField]
     private AudioClip m_pickUpKeyClip;
     [SerializeField]
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     void Start()
@@ -65,30 +65,41 @@ public class AudioManager : MonoBehaviour
     public void PlayWinSound()
     {
         m_sfxAudioSource.clip = m_winClip;
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
     }
     public void PlayGameOverSound()
     {
         m_sfxAudioSource.clip = m_gameOverClip;
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
     }
 
+    public void PlayPickUpSound()
+    {
+        m_sfxAudioSource.clip = m_pickUpKeyClip;
+        if(!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
+    }
     public void PlayLockedDoorSound()
     {
         m_sfxAudioSource.clip = m_lockedDoorClip;
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
     }
 
     public void PickUpKeySound()
     {
         m_sfxAudioSource.clip = m_pickUpKeyClip;
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
     }
     public void PlayOpenedDoor()
     {
         // Door UnLock Open
         m_sfxAudioSource.clip = m_openedDoorClip[0];
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
 
         // Door Opened
         m_sfxAudioSource2.clip = m_openedDoorClip[1];
@@ -97,12 +108,14 @@ public class AudioManager : MonoBehaviour
     IEnumerator OpenedDoorCoroutine(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        m_sfxAudioSource2.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource2.Play();
     }
     
     public void PlayClosedDoor()
     {
         m_sfxAudioSource.clip = m_closedDoorClip;
-        m_sfxAudioSource.Play();
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.Play();
     }
 }

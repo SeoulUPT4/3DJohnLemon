@@ -13,14 +13,14 @@ public enum SceneType
 
 public class SceneLoader
 {
-    public void LoadScene(string sceneName)
+    public static void LoadScene(SceneType sceneType)
     {
-        LoadingScreen.Instance.LoadScene(sceneName, 0.2f);
+        //LoadingScreen.Instance.LoadScene(sceneType.ToString(), 0.2f);
+        SceneManager.LoadScene(sceneType.ToString());
     }
     public static void ReLoadCurrentScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
 
 }

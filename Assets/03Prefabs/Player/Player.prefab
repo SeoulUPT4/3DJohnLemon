@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -118,9 +118,9 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 15
-  m_SpotAngle: 20
+  m_Intensity: 10
+  m_Range: 6
+  m_SpotAngle: 30
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -247,9 +247,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 07e520bb410492d47bf739846d70f2a3, type: 3}
+  m_Resource: {fileID: 8300000, guid: bcc2a361dbf0df842ae10c330e8ed0c8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -345,8 +345,9 @@ GameObject:
   - component: {fileID: 6280264310933515420}
   - component: {fileID: 5767736417191855738}
   - component: {fileID: 1060677839149204252}
-  - component: {fileID: 2701201511710689515}
   - component: {fileID: 6393106085355483240}
+  - component: {fileID: 4238570566569483717}
+  - component: {fileID: 2701201511710689515}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -396,7 +397,7 @@ CharacterController:
   m_Radius: 1.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 3, z: 0}
 --- !u!114 &5767736417191855738
@@ -426,18 +427,43 @@ MonoBehaviour:
   m_cameraController: {fileID: 0}
   m_enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4096
   m_wallMask:
     serializedVersion: 2
     m_Bits: 1024
   m_flashLightObj: {fileID: 7822619547622715701}
   m_flashLight: {fileID: 2147070386158705205}
-  m_flashDuration: 2
-  m_flashCoolTime: 5
+  m_flashDuration: 1
+  m_flashCoolTime: 4
   m_flashLightRange: 6
   m_flashLightAngle: 30
-  MapSacnDuration: 3
-  MapScanCoolTime: 8
+  MapSacnDuration: 5
+  MapScanCoolTime: 12
+--- !u!114 &6393106085355483240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8395925864715379233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7599947037a5040458c229bd42e3762d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_input: {fileID: 5767736417191855738}
+--- !u!114 &4238570566569483717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8395925864715379233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013966416fdf2eb42b29fb921a12a7c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2701201511710689515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,27 +482,8 @@ MonoBehaviour:
   m_animationManager: {fileID: 8507958567487553118}
   m_playerInput: {fileID: 5767736417191855738}
   m_playerSkillManager: {fileID: 1060677839149204252}
-  m_moveSpeed: 2
+  m_moveSpeed: 3
   m_turnSpeed: 20
---- !u!114 &6393106085355483240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8395925864715379233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7599947037a5040458c229bd42e3762d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractionUI_key: {fileID: 0}
-  InteractionUI_door: {fileID: 0}
-  keyList: []
-  nearkeyList: []
-  audioSource: {fileID: 0}
-  sound_pick: {fileID: 0}
-  nearDoor: {fileID: 0}
 --- !u!1 &8596693976510763600
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +575,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: d1ea9957551152e49a13fef15845cc4a, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 768512930b2a7f84f9666ebaef88dc43, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 768512930b2a7f84f9666ebaef88dc43, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

@@ -237,11 +237,12 @@ MonoBehaviour:
   m_NavAgent: {fileID: 0}
   m_Target: {fileID: 0}
   m_CurrentState: 0
-  m_chaseDistance: 50
+  m_ChaseDistance: 0
   m_stopDistance: 0.1
   m_stopParticle: {fileID: 924954088817293101}
   m_deadZone: {fileID: 8036388743829889990}
   m_flashStopTime: 2
+  m_followSpeed: 0.1
 --- !u!136 &62262348841147894
 CapsuleCollider:
   m_ObjectHideFlags: 0

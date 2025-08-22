@@ -179,6 +179,8 @@ MonoBehaviour:
   m_bgmAudioSource: {fileID: 3719022019451097544}
   m_bgmClips:
   - {fileID: 8300000, guid: 205287722f2b6b64583b86d65fdeeb11, type: 3}
+  - {fileID: 8300000, guid: 5bfd6fbf4baf9a84b8aa3818ad7a47cb, type: 3}
+  - {fileID: 8300000, guid: 779d3444add5a474b9a582aaffc24c22, type: 3}
   m_sfxAudioSource: {fileID: 8392936957259284294}
   m_sfxAudioSource2: {fileID: 787556543218277303}
   m_flashLightClip: {fileID: 8300000, guid: 217a60f095200f242a8ea9a253d18f1f, type: 3}

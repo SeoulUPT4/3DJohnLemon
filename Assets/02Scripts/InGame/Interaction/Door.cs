@@ -13,6 +13,10 @@ public class Door : InteractionComponent
     private float m_closedAniTime = 1.0f;
     [SerializeField]
     private Collider[] m_doorColliders;
+    [SerializeField]
+    private AudioClip m_openClip;
+    [SerializeField]
+    private AudioClip m_closeClip;
 
     private bool m_isLocked = true;
     private bool m_isOpend = false;
@@ -35,6 +39,7 @@ public class Door : InteractionComponent
    
     public void Open()
     {
+        Debug.Log("Open");
         m_isOpend = true;
         if(m_doorColliders.Length > 0)
         {
@@ -43,7 +48,10 @@ public class Door : InteractionComponent
                 m_doorColliders[i].enabled = false;
             }
         }
-        AudioManager.Instance.PlayOpenedDoor();
+
+        AudioClip _clip = m_openClip;
+            AudioManager.Instance.PlayOpenedDoor(m_openClip);
+
         m_doorAniamtor.SetBool("IsOpen", true);
         m_doorAniamtor.SetBool("IsClose", false);
     }

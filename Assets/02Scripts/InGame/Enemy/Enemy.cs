@@ -7,7 +7,8 @@ public enum EnemyType
 {
     Gargoyle,
     PatrolGhost,
-    FollowGhost
+    FollowGhost,
+    Rabbit
 }
 
 public enum EnemyState

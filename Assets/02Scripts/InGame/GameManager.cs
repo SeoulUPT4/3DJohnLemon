@@ -13,47 +13,24 @@ public class GameManager : MonoBehaviour
     [Header( "[ Dead Config ]" )]
     [SerializeField] private float m_fadeDuration = 3;
 
-    /*public GameObject player;
-    public CanvasGroup exitBackgroundImageCanvasGroup;
-    public CanvasGroup caughtBackgroundImageCanvasGroup;
-
-    public AudioSource exitAudio;
-    public AudioSource caughtAudio;
-
-    [SerializeField] string creditSceneName;
-
-    bool m_IsPlayerAtExit;
-    bool m_IsPlayerCaught;
-    float m_Timer;
-    bool m_HasAudioPlayed;*/
-
+    public bool IsDead;
     private void Awake()
     {
-        Instance = this;
-    }
-
-    /*void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == player)
+        if ( Instance == null )
         {
-            m_IsPlayerAtExit = true;
+            Instance = this;
+            DontDestroyOnLoad( this );
         }
-    }*/
-
-    void Update()
-    {
-        /*if (m_IsPlayerAtExit)
+        else
         {
-            EndLevel(exitBackgroundImageCanvasGroup, false, exitAudio);
+            Destroy(this.gameObject);
         }
-        else if (m_IsPlayerCaught)
-        {
-            EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio);
-        }*/
     }
     
     public void PlayerDead()
     {
+        if (IsDead) return;
+        IsDead = true;
         // 사운드 효과
         m_audioManager.PlayGameOverSound();
 
@@ -66,19 +43,6 @@ public class GameManager : MonoBehaviour
     private void DelaySceneLoad()
     {
         SceneLoader.ReLoadCurrentScene();
+        IsDead = false;
     }
-
-    /*public void CaughtPlayer()
-    {
-        m_IsPlayerCaught = true;
-    }
-
-    void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart, AudioSource audioSource)
-    {
-        if (!m_HasAudioPlayed)
-        {
-            audioSource.Play();
-            m_HasAudioPlayed = true;
-        }
-    }*/
 }

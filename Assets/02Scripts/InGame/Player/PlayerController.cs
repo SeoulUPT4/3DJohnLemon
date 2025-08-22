@@ -191,6 +191,7 @@ public class PlayerController : MonoBehaviour
         // Enemy
         if(other.CompareTag("DeadZone"))
         {
+            if (GameManager.Instance.IsDead) return;
             // GameOver ReStart처리
             GameManager.Instance.PlayerDead();
             m_isDead = true;

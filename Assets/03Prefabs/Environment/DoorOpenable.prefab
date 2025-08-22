@@ -50,6 +50,7 @@ MonoBehaviour:
   KeyID: 0
   m_doorAniamtor: {fileID: 7305786586840412387}
   m_closedAniTime: 1
+  m_doorColliders: []
 --- !u!95 &7305786586840412387
 Animator:
   serializedVersion: 7
@@ -271,39 +272,10 @@ PrefabInstance:
     - {fileID: 6110907707082097452, guid: b7858f10ffc546b4faf64521636e7f8e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5808718123822154164, guid: b7858f10ffc546b4faf64521636e7f8e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6956823842590880928}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7858f10ffc546b4faf64521636e7f8e, type: 3}
 --- !u!4 &2947489754288221826 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 134151317160678646, guid: b7858f10ffc546b4faf64521636e7f8e, type: 3}
   m_PrefabInstance: {fileID: 2970985667010542196}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8766179582970411968 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5808718123822154164, guid: b7858f10ffc546b4faf64521636e7f8e, type: 3}
-  m_PrefabInstance: {fileID: 2970985667010542196}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &6956823842590880928
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8766179582970411968}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

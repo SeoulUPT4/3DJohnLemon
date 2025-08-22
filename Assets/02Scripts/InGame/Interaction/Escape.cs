@@ -12,13 +12,14 @@ public class Escape : InteractionComponent
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.K))
+        if (Input.GetKeyUp(KeyCode.N))
         {
-            SceneLoader.LoadScene(m_nextSceneType);
+            OnExcape();
         }
     }
     private void OnExcape()
     {
         SceneLoader.LoadScene(m_nextSceneType);
+        AudioManager.Instance.ChangeBGM(m_nextSceneType);
     }
 }

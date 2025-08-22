@@ -494,7 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894430580337143389}
   m_Layer: 0
-  m_Name: TPS_CamView
+  m_Name: LookAtCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
     CinemachineCamera m_mapScanCam;
     private void Start()
     {
+        m_mapScanCam.Priority = 10;
+        m_freeLookCam.Priority = 20;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -5,10 +5,9 @@ using UnityEngine.AI;
 
 public enum EnemyType
 {
-    Gargoyle,
     PatrolGhost,
     FollowGhost,
-    Rabbit
+    RabbitGhost
 }
 
 public enum EnemyState
@@ -22,8 +21,8 @@ public class Enemy : MonoBehaviour, IApplyFlash
 {
     [SerializeField] private EnemyType m_enemyType;
     [SerializeField] protected NavMeshAgent m_NavAgent;
-    [SerializeField] protected GameObject m_Target;
     [SerializeField] protected EnemyState m_CurrentState;
+    protected GameObject m_Target;
     [Space(10)]
 
     [Header("[ AI ]")]
@@ -43,7 +42,7 @@ public class Enemy : MonoBehaviour, IApplyFlash
         if (GetComponent<NavMeshAgent>() != null)
             m_NavAgent = GetComponent<NavMeshAgent>();
 
-        
+        m_Target = GameObject.FindGameObjectWithTag("Player");
     }
     public void init()
     {
@@ -52,7 +51,8 @@ public class Enemy : MonoBehaviour, IApplyFlash
 
     protected virtual void Start()
     {
-        m_stopParticle.Stop();
+        if(m_stopParticle != null) m_stopParticle.Stop();
+
     }
 
 
@@ -108,6 +108,8 @@ public class Enemy : MonoBehaviour, IApplyFlash
     public void ApplyFlash(float flashDuration)
     {
         if (m_isHitFlash) return;
+        if (m_enemyType == EnemyType.RabbitGhost) return;
+
         m_CurrentState = EnemyState.FlashStop;
         m_isHitFlash = true;
         HitFlash(flashDuration);
@@ -115,14 +117,14 @@ public class Enemy : MonoBehaviour, IApplyFlash
     }
     private void HitFlash(float flashDuration)
     {
-        m_stopParticle.Play();
+        if (m_stopParticle != null) m_stopParticle.Play();
         StartCoroutine(StopEnemyCoroutine(flashDuration));
     }
 
     private IEnumerator StopEnemyCoroutine(float flashDuration)
     {
         yield return new WaitForSeconds(flashDuration + m_flashStopTime);
-        m_stopParticle.Stop();
+        if (m_stopParticle != null) m_stopParticle.Stop();
 
         yield return new WaitForSeconds(m_flashStopTime);
         m_deadZone.SetActive(true);

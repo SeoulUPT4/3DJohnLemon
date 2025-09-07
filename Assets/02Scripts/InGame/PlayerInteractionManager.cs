@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [RequireComponent(typeof(PlayerInventory))]
 public class PlayerInteractionManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if (m_input.IsInteraction)
+        if (m_input.IsInteraction) // F키
         {
             Debug.Log("Interaction");
             foreach (var interaction in m_nearInteractionList)

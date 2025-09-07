@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Config")]
     [SerializeField] private float m_moveSpeed = 2;
-    [SerializeField] private float m_turnSpeed = 20f;
+    [SerializeField] private float m_pushSpeed = 1;
+    private float m_currentSpeed;
 
     private Camera m_mainCamera;
     private Vector3 m_moveDir;
@@ -36,7 +37,9 @@ public class PlayerController : MonoBehaviour
     private bool m_isMapScan = false;
 
     private bool m_isSkill = false;
+    private bool m_isPush = false;
     private bool m_isDead = false;
+    private ApplyPush m_pushBox;
     private void Awake()
     {
         Instance = this;
@@ -65,7 +68,7 @@ public class PlayerController : MonoBehaviour
     #region ================================================================================ Movement
     private void HandleMove()
     {
-        float _targetSpeed = m_moveSpeed;
+        float _targetSpeed = m_isPush? m_pushSpeed : m_moveSpeed;
         if (m_playerInput.MoveDir == Vector3.zero) _targetSpeed = 0f;
        
         // 카메라기준으로 캐릭터 이동
@@ -73,23 +76,29 @@ public class PlayerController : MonoBehaviour
         _forward.y = 0f;    // 0f : y값(축)에 따라 카메라 바라보는 방향이 아래나 위 방향이면 캐릭터의 전진 방향이 지면이나 천장방향이되기에
         Vector3 _right = m_mainCamera.transform.right;
 
+        m_currentSpeed = Mathf.Lerp(m_currentSpeed, _targetSpeed, Time.deltaTime * 10);
+
         // 캐릭터나 월드기준이 아닌 카메라 앞을 기준(기본 TPS 방식)
         m_moveDir = _forward * m_playerInput.MoveDir.z + _right * m_playerInput.MoveDir.x;
         
         m_characterController.Move(m_moveDir * _targetSpeed * Time.deltaTime);
 
-        // Move Anime
-        bool isMove = m_moveDir != Vector3.zero;
-        m_animationManager.PlayWalkAni(isMove);
-
         // FootStep Audio
-        if(isMove)
+        if(m_moveDir != Vector3.zero)
         {
             if (!m_audioSource.isPlaying)
             {
                 m_audioSource.Play();
             }
         }
+
+        if(m_isPush)
+        {
+            m_pushBox.Push(this.gameObject, m_moveDir, _targetSpeed);
+        }
+
+        // Move Anime
+        m_animationManager.PlayWalkAni(m_currentSpeed);
     }
 
     private void HandleRotate()
@@ -119,7 +128,7 @@ public class PlayerController : MonoBehaviour
     #region ================================================================================ Skill
     private void HandleSkill()
     {
-        if (m_isSkill) return;
+        if (m_isSkill && !m_isPush) return;
 
         if (!m_isFlashLight && m_playerInput.IsFlash)
         {
@@ -147,6 +156,7 @@ public class PlayerController : MonoBehaviour
 
             // Skill Anime
             m_animationManager.PlayMapScanAni(m_playerSkillManager.MapSacnDuration);
+            AudioManager.Instance.PlayMapScanSound();
 
             // Skill CoolTimeUI
             StartCoroutine(SkillCoolTime(SkillType.MapScan, m_playerSkillManager.MapScanCoolTime));
@@ -202,6 +212,21 @@ public class PlayerController : MonoBehaviour
             // Audio
             m_audioSource.clip = m_cryingClips;
             m_audioSource.Play();
+        }
+        else if(other.CompareTag("PushBox"))
+        {
+            m_pushBox = other.GetComponentInParent<ApplyPush>();
+            m_isPush = true;
+            m_animationManager.PlayPushAni(true);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("PushBox"))
+        {
+            m_isPush = false;
+            m_pushBox = null;
+            m_animationManager.PlayPushAni(false);
         }
     }
 }

@@ -5,9 +5,9 @@ public class PlayerAnimationManager : MonoBehaviour
 {
     [SerializeField] Animator m_animator;
 
-    public void PlayWalkAni(bool isWalking)
+    public void PlayWalkAni(float speed)
     {
-        m_animator.SetBool("IsWalking", isWalking);
+        m_animator.SetFloat("Speed", speed);
     }
     public void PlayFlashAni(float time)
     {
@@ -40,5 +40,8 @@ public class PlayerAnimationManager : MonoBehaviour
         }
         
     }
-
+    public void PlayPushAni(bool isPush)
+    {
+        m_animator.SetBool("IsPush", isPush);
+    }
 }

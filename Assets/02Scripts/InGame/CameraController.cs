@@ -9,6 +9,8 @@ public class CameraController : MonoBehaviour
     CinemachineCamera m_freeLookCam;
     [SerializeField]
     CinemachineCamera m_mapScanCam;
+    [SerializeField]
+    CinemachineCamera m_cinemachineCam;
     private void Start()
     {
         m_mapScanCam.Priority = 10;

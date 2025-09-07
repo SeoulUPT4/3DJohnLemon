@@ -8,6 +8,9 @@ TagManager:
   - Door
   - DeadZone
   - FollowStart
+  - Coffin
+  - Lever
+  - PushBox
   layers:
   - Default
   - TransparentFX

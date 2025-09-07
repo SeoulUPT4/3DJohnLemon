@@ -42,6 +42,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip m_closedDoorClip;
 
+    [SerializeField]
+    private AudioClip m_pushBoxClip;
     private Dictionary<SceneType, AudioClip> m_bgmDic;
 
     private void Awake()
@@ -68,14 +70,15 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         m_bgmAudioSource.loop = true;
-        m_bgmAudioSource.Play();
+
+        string _currentSceneName = SceneManager.GetActiveScene().name;
+        SceneType _type = (SceneType)Enum.Parse(typeof(SceneType), _currentSceneName);
+
+        ChangeBGM(_type);
     }
 
     public void ChangeBGM(SceneType type)
     {
-        //string _currentSceneName = SceneManager.GetActiveScene().name;
-        //SceneType _type = (SceneType)Enum.Parse(typeof(SceneType), _currentSceneName);
-
         if (type == SceneType.InGame2)
         {
             m_bgmAudioSource.volume = 0.2f;
@@ -120,12 +123,6 @@ public class AudioManager : MonoBehaviour
             m_sfxAudioSource.Play();
     }
 
-    public void PickUpKeySound()
-    {
-        m_sfxAudioSource.clip = m_pickUpKeyClip;
-        if (!m_sfxAudioSource.isPlaying)
-            m_sfxAudioSource.Play();
-    }
     public void PlayOpenedDoor(AudioClip clip = null)
     {
         // Door UnLock Open
@@ -160,4 +157,11 @@ public class AudioManager : MonoBehaviour
         if (!m_sfxAudioSource.isPlaying)
             m_sfxAudioSource.Play();
     }
+    public void PlayPushBox()
+    {
+        m_sfxAudioSource.clip = m_pushBoxClip;
+        if (!m_sfxAudioSource.isPlaying)
+            m_sfxAudioSource.PlayOneShot(m_pushBoxClip);
+    }
+
 }

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Key : InteractionComponent
 {
-    [SerializeField]
-    private int m_keyID;
     [SerializeField] 
     private GameObject m_doorLine;
 
@@ -15,10 +13,10 @@ public class Key : InteractionComponent
     }
     public override bool Interact(PlayerInventory inventory)
     {
-        if (inventory == null || inventory.HasKey(m_keyID)) return false;
+        if (inventory == null || inventory.HasKey(InteractionData.ID)) return false;
 
         PickUpKey();
-        inventory.AddKey(m_keyID);
+        inventory.AddKey(InteractionData.ID);
         return true;
     }
     private void PickUpKey()

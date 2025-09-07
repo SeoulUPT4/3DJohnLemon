@@ -233,9 +233,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd6987f6b9ae2e438d3b8fa6c62534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_enemyType: 2
+  m_enemyType: 1
   m_NavAgent: {fileID: 0}
-  m_Target: {fileID: 0}
   m_CurrentState: 0
   m_ChaseDistance: 0
   m_stopDistance: 0.1

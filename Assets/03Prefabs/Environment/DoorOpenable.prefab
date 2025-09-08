@@ -47,10 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7774cd3f598c647a9012de0386dae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractionData:
+    InteractionType: 1
+    ID: 0
+    Name: 
   KeyID: 0
   m_doorAniamtor: {fileID: 7305786586840412387}
   m_closedAniTime: 1
   m_doorColliders: []
+  m_openClip: {fileID: 0}
+  m_closeClip: {fileID: 0}
 --- !u!95 &7305786586840412387
 Animator:
   serializedVersion: 7

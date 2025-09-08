@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 923508646301009921}
   - component: {fileID: 4690703733760518845}
+  - component: {fileID: 8889721224903343172}
   m_Layer: 0
   m_Name: PushableBox
   m_TagString: Untagged
@@ -47,6 +48,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de048a2bc4bc13449095e327a929734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!54 &8889721224903343172
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4610135176076039146}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4666816060113014434
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,9 +88,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3197305033248951671}
   - component: {fileID: 513817329002534587}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube
-  m_TagString: Box
+  m_TagString: PushBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,7 +229,7 @@ GameObject:
   - component: {fileID: 11314178677347441}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Box
+  m_TagString: PushBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,7 +244,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.026, y: 0.522, z: -0.013}
-  m_LocalScale: {x: 1.6557333, y: 1.6557333, z: 1.6557333}
+  m_LocalScale: {x: 2.6062698, y: 2.6062698, z: 2.6062698}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 923508646301009921}

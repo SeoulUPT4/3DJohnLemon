@@ -193,6 +193,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c26ad925943fb914b90867c3d7728961, type: 3}
   - {fileID: 8300000, guid: c259a91421c7c184987ff60f3ff4426c, type: 3}
   m_closedDoorClip: {fileID: 8300000, guid: 6eba87221a3b7f34bbcc9be67ea1d8fb, type: 3}
+  m_pushBoxClip: {fileID: 8300000, guid: 16417c02e7791454daabc748d9a1d535, type: 3}
+  m_leverClip: {fileID: 8300000, guid: ab19e1764dec0e24fb2e1c8e2fe6ace4, type: 3}
 --- !u!1 &5195687926749201249
 GameObject:
   m_ObjectHideFlags: 0

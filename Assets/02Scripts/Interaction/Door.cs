@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Door : InteractionComponent
 {
-    public int KeyID;
-
     [SerializeField] 
     private Animator m_doorAniamtor;
     [SerializeField]
@@ -23,12 +21,12 @@ public class Door : InteractionComponent
     
     public override bool Interact(PlayerInventory inventory)
     {
-        if (m_isLocked && (inventory == null || !inventory.HasKey(KeyID)))
+        if (m_isLocked && (inventory == null || !inventory.HasKey(InteractionData.ID)))
         {
             LockedDoor();
             return false;
         }
-
+        inventory.RemoveKey(InteractionData.ID);
         if (!m_isOpend)
             Open();
         else

@@ -75,10 +75,8 @@ public class Enemy : MonoBehaviour, IApplyFlash
         switch (m_CurrentState)
         {
             case EnemyState.FlashStop:
-                if (m_EnemyType == EnemyType.RabbitGhost) return;
-                if (m_EnemyType == EnemyType.Skeleton) return;
-
-                m_NavAgent.SetDestination(transform.position);
+                if (m_EnemyType == EnemyType.PatrolGhost)
+                    m_NavAgent.SetDestination(transform.position);
                 break;
             case EnemyState.Patrol:
                 // pathPending :NavMeshAgent가 새 경로 계산 중인지 확인

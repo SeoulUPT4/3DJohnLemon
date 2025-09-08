@@ -808,7 +808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2328858379896990652}
-  - component: {fileID: 4962329279716509036}
+  - component: {fileID: 3202723817362136202}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -831,7 +831,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4848371615531418421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &4962329279716509036
+--- !u!82 &3202723817362136202
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -852,10 +852,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 8
+  MinDistance: 5
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -903,7 +903,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1273,8 +1273,8 @@ Transform:
   m_GameObject: {fileID: 8475034543741482199}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.043, y: 0.531018, z: 0.0724}
-  m_LocalScale: {x: 1.6778224, y: 1, z: 1.2724965}
+  m_LocalPosition: {x: -0.043, y: 0.531018, z: 0.0479}
+  m_LocalScale: {x: 2.0568426, y: 1, z: 1.7326661}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4848371615531418421}
@@ -1302,7 +1302,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

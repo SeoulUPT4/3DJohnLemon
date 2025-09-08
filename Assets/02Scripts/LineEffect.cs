@@ -26,7 +26,6 @@ public class LineEffect : MonoBehaviour
     }
     void Start()
     {
-        this.gameObject.SetActive(false);
         m_lineRenderer.textureMode = LineTextureMode.Tile;
         m_lineRenderer.positionCount = linePoses.Length;
 

@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
-  m_FogColor: {r: 1, g: 0.15566039, b: 0.15566039, a: 1}
+  m_Fog: 0
+  m_FogColor: {r: 1, g: 1, b: 1, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -26556,6 +26556,14 @@ PrefabInstance:
       propertyPath: m_cameraController
       value: 
       objectReference: {fileID: 1703509349}
+    - target: {fileID: 1941428320407774993, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: Lens.FieldOfView
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941428320407774993, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: Lens.FarClipPlane
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2701201511710689515, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
       propertyPath: m_rayDis
       value: 1
@@ -26567,6 +26575,34 @@ PrefabInstance:
     - target: {fileID: 2701201511710689515, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
       propertyPath: m_groundMask.m_Bits
       value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 48.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111124261782104860, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5125309627336204904, guid: 415a074f4c4feb64ba5e5d81855eb45f, type: 3}
       propertyPath: m_IsActive
@@ -32451,7 +32487,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8086627378055322472, guid: e2820edbf4023314eaaea47d19241121, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.61
+      value: -0.6100006
       objectReference: {fileID: 0}
     - target: {fileID: 8086627378055322472, guid: e2820edbf4023314eaaea47d19241121, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32459,7 +32495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8086627378055322472, guid: e2820edbf4023314eaaea47d19241121, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.79
+      value: 16.79
       objectReference: {fileID: 0}
     - target: {fileID: 8086627378055322472, guid: e2820edbf4023314eaaea47d19241121, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52266,7 +52302,12 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3602601886425785267, guid: bd4b6c2788ae83d488d50ca9ab87c1bd, type: 3}
+      propertyPath: InteractionData.ID
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6903307898075422291, guid: bd4b6c2788ae83d488d50ca9ab87c1bd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -65789,14 +65830,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123923084}
     m_Modifications:
-    - target: {fileID: 4614671594541010528, guid: c2e790a0dc2675d46b0d23adac6728f8, type: 3}
-      propertyPath: m_Target
-      value: 
-      objectReference: {fileID: 1661288407}
-    - target: {fileID: 4614671594541010528, guid: c2e790a0dc2675d46b0d23adac6728f8, type: 3}
-      propertyPath: waypoints.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4614671594541010528, guid: c2e790a0dc2675d46b0d23adac6728f8, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
@@ -97754,8 +97787,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 50
-  field of view: 40
+  far clip plane: 1000
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -97782,7 +97815,7 @@ Transform:
   m_GameObject: {fileID: 1703509348}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 15.034, z: -1.05}
+  m_LocalPosition: {x: 0, y: 48.534, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104953,7 +104986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1839437214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104961,12 +104994,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839437213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 133370d4738b4f34e83c32c46bc21430, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 211d877c23e33834098758500ca0ac8f, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -122899,9 +122932,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionData:
     InteractionType: 1
-    ID: 0
+    ID: 1
     Name: 
-  KeyID: 1
   m_doorAniamtor: {fileID: 2144666255}
   m_closedAniTime: 2
   m_doorColliders:
@@ -122998,22 +123030,6 @@ PrefabInstance:
     - target: {fileID: 2030555619371424305, guid: 48d664f9ea28b514ea336811faf6e44a, type: 3}
       propertyPath: m_Name
       value: Skeleton1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648654182230019653, guid: 48d664f9ea28b514ea336811faf6e44a, type: 3}
-      propertyPath: m_Speed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3648654182230019653, guid: 48d664f9ea28b514ea336811faf6e44a, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977579158528740453, guid: 48d664f9ea28b514ea336811faf6e44a, type: 3}
-      propertyPath: m_stopDistance
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977579158528740453, guid: 48d664f9ea28b514ea336811faf6e44a, type: 3}
-      propertyPath: m_ChaseDistance
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -153776,7 +153792,6 @@ MonoBehaviour:
     InteractionType: 1
     ID: 0
     Name: 
-  KeyID: 0
   m_doorAniamtor: {fileID: 5931690310087617573}
   m_closedAniTime: 2
   m_doorColliders:

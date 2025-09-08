@@ -5,19 +5,16 @@ public class BloodScreen : MonoBehaviour
 {
     [SerializeField]
     private PostProcessVolume m_post;
-    private float t;
-    private bool m_isTwincle;
-    void Update()
-    {
 
-        t += Time.deltaTime;
-        if(t > 4.0f)
-        {
-            m_isTwincle = !m_isTwincle;
-            m_post.enabled = m_isTwincle;
-            t = 0;
-        }
+    private void Start()
+    {
+        m_post.enabled = false;
+        Invoke("Effect", 15);
     }
 
+    private void Effect()
+    {
+        m_post.enabled = true;
+    }
 
 }

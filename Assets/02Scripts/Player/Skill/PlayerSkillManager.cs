@@ -112,7 +112,8 @@ public class PlayerSkillManager : MonoBehaviour
             }
         }
     }
- 
+    
+    // 적 체크 범위
     private void OnDrawGizmos()
     {
         Vector3 _flashPos = m_flashLightObj.transform.position + Vector3.up * 0.1f;

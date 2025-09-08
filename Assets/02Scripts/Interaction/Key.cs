@@ -5,15 +5,19 @@ public class Key : InteractionComponent
 {
     [SerializeField] 
     private GameObject m_doorLine;
-
+    
     private void Start()
     {
-        if(m_doorLine != null)
+        if(this.m_doorLine != null)
             m_doorLine.SetActive(false);
     }
     public override bool Interact(PlayerInventory inventory)
     {
-        if (inventory == null || inventory.HasKey(InteractionData.ID)) return false;
+        if (inventory == null || inventory.HasKey(InteractionData.ID))
+        {
+            Debug.Log("aaaa");
+            return false;
+        }
 
         PickUpKey();
         inventory.AddKey(InteractionData.ID);
@@ -21,10 +25,11 @@ public class Key : InteractionComponent
     }
     private void PickUpKey()
     {
-        AudioManager.Instance.PlayPickUpSound();
-        if (m_doorLine != null)
+        if (this.m_doorLine != null)
+        {
             m_doorLine.SetActive(true);
+        }
+        AudioManager.Instance.PlayPickUpSound();
         Destroy(this.gameObject);
-        //this.gameObject.SetActive(false);
     }
 }
